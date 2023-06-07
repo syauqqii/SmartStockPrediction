@@ -41,11 +41,11 @@ func CreatePelanggan(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var existingPelanggan Models.Pelanggan
+	existingPelanggan := Models.Pelanggan{}
 
-	if err := Database.DB.Where("nama_pelanggan = ?", pelangganInput.NamaPelanggan).First(&existingPelanggan).Error; err == nil {
-		response := map[string]string{"message": "nama pelanggan sudah ada"}
-		Utils.ResponseJSON(w, http.StatusConflict, response)
+	if err := Database.DB.Where("nomor_hp = ?", pelangganInput.NomorHP).First(&existingPelanggan).Error; err == nil {
+		response := map[string]string{"message": "nomor telepon sudah ada"}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
 		return
 	}
 
@@ -74,7 +74,7 @@ func GetPelangganByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var pelanggan Models.Pelanggan
-	
+
 	if err := Database.DB.First(&pelanggan, pelangganID).Error; err != nil {
 		response := map[string]string{"message": "pelanggan tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
@@ -100,7 +100,7 @@ func UpdatePelanggan(w http.ResponseWriter, r *http.Request) {
 
 	var pelanggan Models.Pelanggan
 	if err := Database.DB.First(&pelanggan, pelangganID).Error; err != nil {
-		response := map[string]string{"message": "Ppelanggan tidak ditemukan"}
+		response := map[string]string{"message": "pelanggan tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
 		return
 	}
@@ -112,11 +112,11 @@ func UpdatePelanggan(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var existingPelanggan Models.Pelanggan
-
-	if err := Database.DB.Where("nama_pelanggan = ? AND id_pelanggan != ?", pelangganInput.NamaPelanggan, pelangganID).First(&existingPelanggan).Error; err == nil {
-		response := map[string]string{"message": "nama pelanggan sudah ada"}
-		Utils.ResponseJSON(w, http.StatusConflict, response)
+	existingPelanggan := Models.Pelanggan{}
+	
+	if err := Database.DB.Where("nomor_hp = ? AND id != ?", pelangganInput.NomorHP, pelangganID).First(&existingPelanggan).Error; err == nil {
+		response := map[string]string{"message": "nomor telepon sudah digunakan"}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
 		return
 	}
 

@@ -6,6 +6,8 @@ type DetailTransaksi struct {
 	IDProduk        int     `gorm:"column:id_produk"                                    json:"id_produk"`
 	JumlahProduk    int     `gorm:"column:jumlah_produk"                                json:"jumlah_produk"`
 	HargaProduk     float64 `gorm:"column:harga_produk"                                 json:"harga_produk"`
+	Transaksi    Transaksi  `gorm:"foreignKey:IDTransaksi"                              json:"transaksi"`
+	Produk       Produk     `gorm:"foreignKey:IDProduk"                                 json:"produk"`
 }
 
 type DetailTransaksiInput struct {

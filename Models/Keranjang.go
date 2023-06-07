@@ -5,6 +5,8 @@ type Keranjang struct {
 	IDPelanggan   int `gorm:"column:id_pelanggan"                          json:"id_pelanggan"`
 	IDProduk      int `gorm:"column:id_produk"                             json:"id_produk"`
 	JumlahProduk  int `gorm:"column:jumlah_produk"                         json:"jumlah_produk"`
+	Pelanggan 	  Pelanggan  `gorm:"foreignKey:IDPelanggan"                json:"pelanggan"`
+	Produk    	  Produk     `gorm:"foreignKey:IDProduk"                   json:"produk"`
 }
 
 type KeranjangInput struct {

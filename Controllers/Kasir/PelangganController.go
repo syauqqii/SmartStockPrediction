@@ -132,29 +132,3 @@ func UpdatePelanggan(w http.ResponseWriter, r *http.Request) {
 	response := map[string]string{"message": "berhasil update pelanggan"}
 	Utils.ResponseJSON(w, http.StatusOK, response)
 }
-
-func DeletePelanggan(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	pelangganID, err := strconv.Atoi(params["id"])
-	if err != nil {
-		response := map[string]string{"message": err.Error()}
-		Utils.ResponseJSON(w, http.StatusBadRequest, response)
-		return
-	}
-
-	var pelanggan Models.Pelanggan
-	if err := Database.DB.First(&pelanggan, pelangganID).Error; err != nil {
-		response := map[string]string{"message": "pelanggan tidak ditemukan"}
-		Utils.ResponseJSON(w, http.StatusNotFound, response)
-		return
-	}
-
-	if err := Database.DB.Delete(&pelanggan).Error; err != nil {
-		response := map[string]string{"message": err.Error()}
-		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
-		return
-	}
-
-	response := map[string]string{"message": "berhasil hapus pelanggan"}
-	Utils.ResponseJSON(w, http.StatusOK, response)
-}

@@ -1,10 +1,11 @@
 package Models
 
 type Produk struct {
-	ID                int     `gorm:"column:id_produk;primaryKey;autoIncrement" json:"id_produk"`
-	NamaProduk        string  `gorm:"column:nama_produk;varchar(255)"           json:"nama_produk"`
-	HargaProduk       float64 `gorm:"column:harga_produk"                       json:"harga_produk"`
-	IDKategoriProduk  int     `gorm:"column:id_kategori_produk"                 json:"id_kategori_produk"`
+	ID               int             `gorm:"column:id_produk;primaryKey;autoIncrement" json:"id_produk"`
+	NamaProduk       string          `gorm:"column:nama_produk;varchar(255)"           json:"nama_produk"`
+	HargaProduk      float64         `gorm:"column:harga_produk"                       json:"harga_produk"`
+	IDKategoriProduk int             `gorm:"column:id_kategori_produk"                 json:"id_kategori_produk"`
+	KategoriProduk   KategoriProduk  `gorm:"foreignKey:IDKategoriProduk"               json:"kategori_produk"`
 }
 
 type ProdukInput struct {

@@ -8,10 +8,11 @@ import (
 )
 
 var (
-	DB_CONN  string
-	APP_HOST string
-	APP_PORT string
-	APP_CONF string
+	DB_CONN    string
+	APP_HOST   string
+	APP_PORT   string
+	APP_CONF   string
+	IS_DISPLAY string
 )
 
 func LoadEnv() {
@@ -21,8 +22,9 @@ func LoadEnv() {
 	}
 
 	// Set Global Variable
-	APP_HOST = os.Getenv("APP_HOST")
-	APP_PORT = os.Getenv("APP_PORT")
+	APP_HOST   = os.Getenv("APP_HOST")
+	APP_PORT   = os.Getenv("APP_PORT")
+	IS_DISPLAY = os.Getenv("IS_DISPLAY")
 
 	// Lokal Variable
 	DB_USER := os.Getenv("DB_USER")
