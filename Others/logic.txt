@@ -1,0 +1,154 @@
+-----------------------------------------------------------------------------------------------------------
+				          Digital Transaction Tracker
+-----------------------------------------------------------------------------------------------------------
+Auth :
+    Admin :
+        Users CRUD
+        Pelanggan CRUD
+        Kategori Produk CRUD
+        Produk CRUD
+
+
+7 Table :
+    [0] Users:
+        id_user
+        username
+        password (bcrypt)
+        role (admin / kasir)
+
+    [1] Pelanggan:
+        id_pelanggan (primary key)
+        nama_pelanggan
+        nomor_hp_pelanggan
+
+    [2] Kategori_Produk:
+        id_kategori_produk (primary key)
+        nama_kategori_produk
+
+    [3] Produk:
+        id_produk (primary key)
+        nama_produk
+        harga_produk
+        stok_produk
+        id_kategori_produk (foreign key -> Kategori_Produk)
+
+    [4] Keranjang:
+        id_keranjang (primary key)
+        id_pelanggan (foreign key -> Pelanggan)
+        id_produk (foreign key -> Produk)
+        jumlah_produk
+
+    [5] Transaksi:
+        id_transaksi (primary key)
+        id_pelanggan (foreign key -> Pelanggan)
+        tanggal_transaksi
+        total_harga_transaksi
+
+    [6] Detail Transaksi:
+        id_detail_transaksi (primary key)
+        id_transaksi (foreign key -> Transaksi)
+        id_produk (foreign key -> Produk)
+        jumlah_produk
+        harga_produk
+
+5 Relasi :
+	[1] Produk -> Kategori_Produk
+	[2] Keranjang -> Pelanggan
+	[3] Keranjang -> Produk
+    --------------------------------- [4] Transaksi -> Pelanggan
+    [4] Detail Transaksi -> Transaksi
+    [5] Detail Transaksi -> Produk
+
+-----------------------------------------------------------------------------------------------------------
+Memanfaatkan data transaksi untuk memprediksi permintaan produk
+
+Algoritma: Regresi Linier / Decision Tree
+Ekspetasi: Aplikasi dapat memberikan rekomendasi kepada pengguna mengenai produk yang perlu diisi stoknya
+-----------------------------------------------------------------------------------------------------------
+Rumus regresi linier:
+y = a + bx
+dimana:
+    y = jumlah produk yang akan dibeli di masa depan
+    x = data historis transaksi
+    a = intercept
+    b = slope
+-----------------------------------------------------------------------------------------------------------
+Rumus decision tree:
+if (jumlah_produk_terjual > x) then (produk_laris)
+else (produk_tidak_laris)
+dimana:
+    jumlah_produk_terjual = jumlah produk yang terjual dalam periode tertentu
+    x = threshold yang ditentukan
+    produk_laris = produk yang diprediksi akan laris di masa depan
+    produk_tidak_laris = produk yang diprediksi tidak akan laris di masa depan
+-----------------------------------------------------------------------------------------------------------
+Dalam hal ini, dapat digunakan library machine learning / AI seperti GoLearn
+
+
+SQL : smartpredictstock
+-- Tabel Users
+CREATE TABLE Users (
+    id_user INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255),
+    password VARCHAR(255),
+    role ENUM('admin', 'kasir')
+);
+
+-- Tabel Pelanggan
+CREATE TABLE Pelanggans (
+    id_pelanggan INT PRIMARY KEY AUTO_INCREMENT,
+    nama_pelanggan VARCHAR(255),
+    nomor_hp_pelanggan VARCHAR(20)
+);
+
+-- Tabel Kategori_Produk
+CREATE TABLE Kategori_Produks (
+    id_kategori_produk INT PRIMARY KEY AUTO_INCREMENT,
+    nama_kategori_produk VARCHAR(255)
+);
+
+-- Tabel Produk
+CREATE TABLE Produks (
+    id_produk INT PRIMARY KEY AUTO_INCREMENT,
+    nama_produk VARCHAR(255),
+    harga_produk DECIMAL(10, 2),
+    stok_produk INT,
+    id_kategori_produk INT,
+    FOREIGN KEY (id_kategori_produk) REFERENCES Kategori_Produk(id_kategori_produk)
+);
+
+-- Tabel Keranjang
+CREATE TABLE Keranjangs (
+    id_keranjang INT PRIMARY KEY AUTO_INCREMENT,
+    id_pelanggan INT,
+    id_produk INT,
+    jumlah_produk INT,
+    FOREIGN KEY (id_pelanggan) REFERENCES Pelanggan(id_pelanggan),
+    FOREIGN KEY (id_produk) REFERENCES Produk(id_produk)
+);
+
+-- Tabel Transaksi
+CREATE TABLE Transaksis (
+    id_transaksi INT PRIMARY KEY AUTO_INCREMENT,
+    id_pelanggan INT,
+    tanggal_transaksi DATE,
+    total_harga_transaksi DECIMAL(10, 2),
+    FOREIGN KEY (id_pelanggan) REFERENCES Pelanggan(id_pelanggan)
+);
+
+-- Tabel Detail Transaksi
+CREATE TABLE Detail_Transaksis (
+    id_detail_transaksi INT PRIMARY KEY AUTO_INCREMENT,
+    id_transaksi INT,
+    id_produk INT,
+    jumlah_produk INT,
+    harga_produk DECIMAL(10, 2),
+    FOREIGN KEY (id_transaksi) REFERENCES Transaksi(id_transaksi),
+    FOREIGN KEY (id_produk) REFERENCES Produk(id_produk)
+);
+
+
+Referensi Coding :
+    (gorm) https://gorm.io/docs/
+    (mux) https://pkg.go.dev/github.com/gorilla/mux#section-documentation
+    (compare bcrypt hash) https://pkg.go.dev/golang.org/x/crypto/bcrypt#CompareHashAndPassword
