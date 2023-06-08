@@ -5,3 +5,5 @@ dengan menggunakan rumus regresi linier.
 
 
 stok barang ya bukan stock saham
+
+<img src="https://github.com/syauqqii/SmartStockPrediction/blob/main/Others/Screenshot%20(752).png">
