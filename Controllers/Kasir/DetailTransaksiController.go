@@ -1,14 +1,12 @@
-package Controllers
+package Kasir
 
 import (
-	"encoding/json"
+	"strconv"
 	"net/http"
-
 	"github.com/gorilla/mux"
-
+	"SmartStockPrediction/Utils"
 	"SmartStockPrediction/Models"
 	"SmartStockPrediction/Database"
-	"SmartStockPrediction/Utils"
 )
 
 func ListDetailTransaksi(w http.ResponseWriter, r *http.Request) {

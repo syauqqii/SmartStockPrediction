@@ -1,12 +1,12 @@
-package Controllers
+package Admin
 
 import (
 	"strconv"
 	"net/http"
 	"github.com/gorilla/mux"
-	"SmartStockPrediction/utils"
-	"SmartStockPrediction/models"
-	"SmartStockPrediction/database"
+	"SmartStockPrediction/Utils"
+	"SmartStockPrediction/Models"
+	"SmartStockPrediction/Database"
 )
 
 func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
@@ -27,6 +27,7 @@ func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 	idPelanggan := transaksi.IDPelanggan
 
 	var keranjangs []Models.Keranjang
+	
 	if err := Database.DB.Where("id_pelanggan = ?", idPelanggan).Find(&keranjangs).Error; err != nil {
 		response := map[string]string{"message": "gagal mendapatkan keranjang pelanggan"}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
@@ -43,8 +44,7 @@ func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		// Kurangi stok di tabel produk sesuai jumlah produk yang ada di keranjang
-		produk.Stok -= keranjang.JumlahProduk
+		produk.StokProduk -= keranjang.JumlahProduk
 		if err := Database.DB.Save(&produk).Error; err != nil {
 			response := map[string]string{"message": "gagal mengurangi stok produk"}
 			Utils.ResponseJSON(w, http.StatusInternalServerError, response)
@@ -55,7 +55,7 @@ func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 			IDTransaksi:     detailTransaksiInput.IDTransaksi,
 			IDProduk:        keranjang.IDProduk,
 			JumlahProduk:    keranjang.JumlahProduk,
-			HargaProduk:     produk.Harga,
+			HargaProduk:     produk.HargaProduk,
 		}
 
 		detailTransaksis = append(detailTransaksis, detailTransaksi)
