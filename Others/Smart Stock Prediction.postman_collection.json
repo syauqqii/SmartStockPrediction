@@ -201,7 +201,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 2,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 5\r\n}"
+											"raw": "{\r\n  \"id_pelanggan\": 1,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 5\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/keranjang",
@@ -312,7 +312,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 2\r\n}"
+											"raw": "{\r\n  \"id_pelanggan\": 1\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/transaksi",
@@ -438,26 +438,6 @@
 									"name": "Get Detail Transaksi By ID",
 									"request": {
 										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:8080/kasir/detail-transaksi/2",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"kasir",
-												"detail-transaksi",
-												"2"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Delete Detail Transaksi By ID",
-									"request": {
-										"method": "DELETE",
 										"header": [],
 										"url": {
 											"raw": "localhost:8080/kasir/detail-transaksi/2",
@@ -1132,7 +1112,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin123\"\r\n}"
+							"raw": "{\r\n    \"username\": \"kasir\",\r\n    \"password\": \"kasir\"\r\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/login",
