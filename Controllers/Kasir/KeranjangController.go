@@ -131,8 +131,20 @@ func UpdateKeranjang(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	keranjang.IDPelanggan = keranjangInput.IDPelanggan
-	keranjang.IDProduk = keranjangInput.IDProduk
+	// Validasi jika ID pelanggan tidak berubah
+	if keranjang.IDPelanggan != keranjangInput.IDPelanggan {
+		response := map[string]string{"message": "Tidak dapat mengubah ID pelanggan"}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		return
+	}
+
+	// Validasi jika ID produk tidak berubah
+	if keranjang.IDProduk != keranjangInput.IDProduk {
+		response := map[string]string{"message": "Tidak dapat mengubah ID produk"}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		return
+	}
+
 	keranjang.JumlahProduk = keranjangInput.JumlahProduk
 
 	if err := Database.DB.Save(&keranjang).Error; err != nil {

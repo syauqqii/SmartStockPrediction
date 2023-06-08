@@ -85,6 +85,53 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func Register(w http.ResponseWriter, r *http.Request) {
+	var userInput Models.UserInput
+
+	if err := Utils.DecodeJSONBody(w, r, &userInput); err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		return
+	}
+
+	if userInput.Role != "admin" && userInput.Role != "kasir" {
+		response := map[string]string{"message": "role tidak ada"}
+		Utils.ResponseJSON(w, http.StatusConflict, response)
+		return
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(userInput.Password), bcrypt.DefaultCost)
+
+	if err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	user := Models.User{
+		Username: userInput.Username,
+		Password: string(hashedPassword),
+		Role:     userInput.Role,
+	}
+
+	var existingUser Models.User
+
+	if err := Database.DB.Where("username = ?", userInput.Username).First(&existingUser).Error; err == nil {
+		response := map[string]string{"message": "username sudah ada"}
+		Utils.ResponseJSON(w, http.StatusConflict, response)
+		return
+	}
+
+	if err := Database.DB.Create(&user).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	response := map[string]string{"message": "berhasil membuat user"}
+	Utils.ResponseJSON(w, http.StatusCreated, response)
+}
+
 func Logout(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{
 		Name:     "token",

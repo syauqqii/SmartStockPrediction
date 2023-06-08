@@ -46,6 +46,13 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 			Utils.ResponseJSON(w, http.StatusNotFound, response)
 			return
 		}
+
+		 if item.JumlahProduk > produk.StokProduk {
+			response := map[string]string{"message": "stok produk tidak cukup"}
+			Utils.ResponseJSON(w, http.StatusBadRequest, response)
+			return
+		}
+
 		totalHarga += produk.HargaProduk * float64(item.JumlahProduk)
 	}
 
@@ -130,6 +137,83 @@ func GetAllTransaksi(w http.ResponseWriter, r *http.Request) {
 	response := map[string]interface{}{"transaksis": transaksiResponses}
 	Utils.ResponseJSON(w, http.StatusOK, response)
 }
+
+func UpdateTransaksi(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	transaksiID, err := strconv.Atoi(params["id"])
+
+	if err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		return
+	}
+
+	var transaksi Models.Transaksi
+
+	if err := Database.DB.First(&transaksi, transaksiID).Error; err != nil {
+		response := map[string]string{"message": "transaksi tidak ditemukan"}
+		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		return
+	}
+
+	var transaksiInput Models.TransaksiInput
+
+	if err := Utils.DecodeJSONBody(w, r, &transaksiInput); err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		return
+	}
+
+	var pelanggan Models.Pelanggan
+
+	if err := Database.DB.First(&pelanggan, transaksiInput.IDPelanggan).Error; err != nil {
+		response := map[string]string{"message": "id pelanggan tidak ditemukan"}
+		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		return
+	}
+
+	var totalHarga float64
+
+	var keranjang []Models.Keranjang
+	if err := Database.DB.Where("id_pelanggan = ?", transaksiInput.IDPelanggan).Find(&keranjang).Error; err != nil {
+		response := map[string]string{"message": "gagal mengambil keranjang"}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	for _, item := range keranjang {
+		var produk Models.Produk
+		
+		if err := Database.DB.First(&produk, item.IDProduk).Error; err != nil {
+			response := map[string]string{"message": "produk tidak ditemukan"}
+			Utils.ResponseJSON(w, http.StatusNotFound, response)
+			return
+		}
+		totalHarga += produk.HargaProduk * float64(item.JumlahProduk)
+	}
+
+	transaksi.IDPelanggan = transaksiInput.IDPelanggan
+	transaksi.TanggalTransaksi = time.Now().Format("2006-01-02 15:04:05")
+	transaksi.TotalHargaTransaksi = totalHarga
+
+	if err := Database.DB.Save(&transaksi).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	// Hapus keranjang berdasarkan id pelanggan
+	// if err := Database.DB.Where("id_pelanggan = ?", transaksi.IDPelanggan).Delete(&Models.Keranjang{}).Error; err != nil {
+	// 	response := map[string]string{"message": "gagal menghapus keranjang"}
+	// 	Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+	// 	return
+	// }
+
+	response := map[string]string{"message": "berhasil mengupdate transaksi"}
+
+	Utils.ResponseJSON(w, http.StatusOK, response)
+}
+
 
 func DeleteTransaksi(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)

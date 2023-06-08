@@ -35,6 +35,7 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 		ID:                produk.ID,
 		NamaProduk:        produk.NamaProduk,
 		HargaProduk:       produk.HargaProduk,
+		StokProduk:        produk.StokProduk,
 		IDKategoriProduk:  produk.IDKategoriProduk,
 	}
 
@@ -56,6 +57,7 @@ func GetAllProduk(w http.ResponseWriter, r *http.Request) {
 			ID:                produk.ID,
 			NamaProduk:        produk.NamaProduk,
 			HargaProduk:       produk.HargaProduk,
+			StokProduk:        produk.StokProduk,
 			IDKategoriProduk:  produk.IDKategoriProduk,
 		}
 		produkResponses = append(produkResponses, produkResponse)

@@ -46,6 +46,13 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 			Utils.ResponseJSON(w, http.StatusNotFound, response)
 			return
 		}
+
+		 if item.JumlahProduk > produk.StokProduk {
+			response := map[string]string{"message": "stok produk tidak cukup"}
+			Utils.ResponseJSON(w, http.StatusBadRequest, response)
+			return
+		}
+
 		totalHarga += produk.HargaProduk * float64(item.JumlahProduk)
 	}
 

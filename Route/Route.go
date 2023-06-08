@@ -17,6 +17,7 @@ func RunRoute() {
 
 	// ------------------------[  NO AUTH  ]----------------------------------
 	r.HandleFunc("/login", Controllers.Login).Methods("POST")
+	r.HandleFunc("/register", Controllers.Register).Methods("POST")
 	r.HandleFunc("/logout", Controllers.Logout).Methods("GET")
 
 	// ------------------------[ AUTH ADMIN ]----------------------------------

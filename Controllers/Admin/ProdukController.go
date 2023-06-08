@@ -29,6 +29,7 @@ func CreateProduk(w http.ResponseWriter, r *http.Request) {
 	produk := Models.Produk{
 		NamaProduk:        produkInput.NamaProduk,
 		HargaProduk:       produkInput.HargaProduk,
+		StokProduk:        produkInput.StokProduk,
 		IDKategoriProduk:  produkInput.IDKategoriProduk,
 	}
 
@@ -67,6 +68,7 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 		ID:                produk.ID,
 		NamaProduk:        produk.NamaProduk,
 		HargaProduk:       produk.HargaProduk,
+		StokProduk:        produk.StokProduk,
 		IDKategoriProduk:  produk.IDKategoriProduk,
 	}
 
@@ -88,6 +90,7 @@ func GetAllProduk(w http.ResponseWriter, r *http.Request) {
 			ID:                produk.ID,
 			NamaProduk:        produk.NamaProduk,
 			HargaProduk:       produk.HargaProduk,
+			StokProduk:        produk.StokProduk,
 			IDKategoriProduk:  produk.IDKategoriProduk,
 		}
 		produkResponses = append(produkResponses, produkResponse)
@@ -129,6 +132,7 @@ func UpdateProduk(w http.ResponseWriter, r *http.Request) {
 
 	produk.NamaProduk = produkInput.NamaProduk
 	produk.HargaProduk = produkInput.HargaProduk
+	produk.StokProduk = produkInput.StokProduk
 	produk.IDKategoriProduk = produkInput.IDKategoriProduk
 
 	if err := Database.DB.Save(&produk).Error; err != nil {
