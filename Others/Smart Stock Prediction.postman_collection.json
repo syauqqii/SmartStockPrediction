@@ -1134,7 +1134,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin123\"\r\n}"
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin123\",\r\n    \"role\": \"admin\"\r\n}"
 						},
 						"url": {
 							"raw": "localhost:8080/login",
