@@ -19,12 +19,13 @@ func RunRoute() {
 	r.HandleFunc("/login", Controllers.Login).Methods("POST")
 	r.HandleFunc("/register", Controllers.Register).Methods("POST")
 	r.HandleFunc("/logout", Controllers.Logout).Methods("GET")
+	
 
 	// ------------------------[ AUTH ADMIN ]----------------------------------
 	admin := r.PathPrefix("/admin").Subrouter()
 	admin.Use(Middleware.JWTAdminMiddleware)
 
-	// admin.HandleFunc("/rekomendasi/{id}", Admin.)
+	admin.HandleFunc("/rekomendasi", Admin.GetRecommendation).Methods("GET")
 
 	// >> CRUD USER ROUTE
 	admin.HandleFunc("/users", Admin.ListUser).Methods("GET")
