@@ -1,7 +1,6 @@
 package Kasir
 
 import (
-	"fmt"
 	"time"
 	"strconv"
 	"net/http"
@@ -67,15 +66,6 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
 		return
 	}
-
-	fmt.Println(&transaksi)
-
-	// Hapus keranjang berdasarkan id pelanggan
-	// if err := Database.DB.Where("id_pelanggan = ?", transaksi.IDPelanggan).Delete(&Models.Keranjang{}).Error; err != nil {
-	// 	response := map[string]string{"message": "gagal menghapus keranjang"}
-	// 	Utils.ResponseJSON(w, http.StatusInternalServerError, response)
-	// 	return
-	// }
 
 	response := map[string]string{"message": "berhasil menambahkan transaksi"}
 

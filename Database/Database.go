@@ -2,6 +2,7 @@ package Database
 
 import (
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/driver/mysql"
 	"SmartStockPrediction/Utils"
 	"SmartStockPrediction/Models"
@@ -10,7 +11,11 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	db, err := gorm.Open(mysql.Open(Utils.DB_CONN))
+	config := gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	}
+
+	db, err := gorm.Open(mysql.Open(Utils.DB_CONN), &config)
 	
 	if err != nil {
 		panic(err)

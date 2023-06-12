@@ -24,6 +24,8 @@ func RunRoute() {
 	admin := r.PathPrefix("/admin").Subrouter()
 	admin.Use(Middleware.JWTAdminMiddleware)
 
+	// admin.HandleFunc("/rekomendasi/{id}", Admin.)
+
 	// >> CRUD USER ROUTE
 	admin.HandleFunc("/users", Admin.ListUser).Methods("GET")
 	admin.HandleFunc("/users", Admin.CreateUser).Methods("POST")
@@ -100,8 +102,6 @@ func RunRoute() {
 	kasir.HandleFunc("/detail-transaksi", Kasir.ListDetailTransaksi).Methods("GET")
 	kasir.HandleFunc("/detail-transaksi", Kasir.CreateDetailTransaksi).Methods("POST")
 	kasir.HandleFunc("/detail-transaksi/{id}", Kasir.GetDetailTransaksiByID).Methods("GET")
-	kasir.HandleFunc("/detail-transaksi/{id}", Kasir.UpdateDetailTransaksi).Methods("PUT")
-	kasir.HandleFunc("/detail-transaksi/{id}", Kasir.DeleteDetailTransaksi).Methods("DELETE")
 
 	// ------------------------[  START APP  ]----------------------------------
 	if Utils.IS_DISPLAY == "1" {

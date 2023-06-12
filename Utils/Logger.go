@@ -1,26 +1,26 @@
 package Utils
 
 import (
-	"github.com/fatih/color"
-	"os"
-	"time"
+        "github.com/fatih/color"
+        "os"
+        "time"
 )
 
-var Serv = color.New(color.FgHiCyan, color.Underline) // => Cyan Terang + Garis Bawah
+var Serv = color.New(color.FgHiCyan, color.Underline)
 
-var white  = color.New(color.FgHiWhite)  // => Putih Terang
-var red    = color.New(color.FgHiRed)    // => Merah Terang
-var green  = color.New(color.FgHiGreen)  // => Hijau Terang
-var yellow = color.New(color.FgHiYellow) // => Kuning Terang
-var cyan   = color.New(color.FgHiCyan)   // => Cyan Terang
-var fatal  = color.New(color.FgRed)      // => Merah
+var white  = color.New(color.FgHiWhite)
+var red    = color.New(color.FgHiRed)
+var green  = color.New(color.FgHiGreen)
+var yellow = color.New(color.FgHiYellow)
+var cyan   = color.New(color.FgHiCyan)
+var fatal  = color.New(color.FgRed)
 
 func Logger(opt int, msg string) {
-	now := time.Now()
+        now := time.Now()
 
-	 white.Printf(" [%s] ", yellow.SprintFunc()(now.Format("15:04:05 2006/01/02")))
+         white.Printf(" [%s] ", yellow.SprintFunc()(now.Format("15:04:05 2006/01/02")))
 
-	if opt == 1 {
+        if opt == 1 {
                 cyan.Printf("INFO")
         } else if opt == 2{
                 red.Printf("ERROR")
@@ -32,5 +32,5 @@ func Logger(opt int, msg string) {
                 os.Exit(0)
         }
 
-	white.Println(": "+msg)
+        white.Println(": "+msg)
 }

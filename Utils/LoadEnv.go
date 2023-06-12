@@ -4,6 +4,7 @@ import (
 	"os"
 	"fmt"
 	"log"
+	"strconv"
 	"github.com/joho/godotenv"
 )
 
@@ -13,6 +14,7 @@ var (
 	APP_PORT   string
 	APP_CONF   string
 	IS_DISPLAY string
+	EXP_TOKEN int
 )
 
 func LoadEnv() {
@@ -26,6 +28,13 @@ func LoadEnv() {
 	APP_PORT   = os.Getenv("APP_PORT")
 	IS_DISPLAY = os.Getenv("IS_DISPLAY")
 
+	expTokenStr  := os.Getenv("SET_EXPIRED_TOKEN")
+	expToken, err := strconv.Atoi(expTokenStr)
+	if err != nil {
+		log.Fatal("Gagal mengkonversi SET_EXPIRED_TOKEN menjadi integer")
+	}
+	EXP_TOKEN = expToken
+
 	// Lokal Variable
 	DB_USER := os.Getenv("DB_USER")
 	DB_PASS := os.Getenv("DB_PASSWORD")
@@ -33,7 +42,6 @@ func LoadEnv() {
 	DB_HOST := os.Getenv("DB_HOST")
 	DB_PORT := os.Getenv("DB_PORT")
 	
-
 	// Set Format (Database.go) -> root:@tcp(localhost:3306)/smartpredictstock
 	DB_CONN = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME)
 

@@ -46,7 +46,9 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	expTime := time.Now().Add(time.Minute * 1)
+	// expTime := time.Now().Add(time.Minute * 1)
+	expTime := time.Now().Add(time.Duration(Utils.EXP_TOKEN) * time.Minute)
+	formattedExpTime := expTime.Format("2006-01-02 15:04:05")
 
 	claims := &Utils.JWTClaim{
 		Username: user.Username,
@@ -75,11 +77,17 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	})
 
 	if user.Role == "admin" {
-		response := map[string]string{"message": "berhasil login sebagai admin"}
+		response := map[string]interface{}{
+			"message":      "Berhasil login sebagai admin",
+			"token_expired_at":   formattedExpTime,
+		}
 		Utils.ResponseJSON(w, http.StatusOK, response)
 		return
 	} else if user.Role == "kasir" {
-		response := map[string]string{"message": "berhasil login sebagai kasir"}
+		response := map[string]interface{}{
+			"message":      "Berhasil login sebagai kasir",
+			"token_expired_at":   formattedExpTime,
+		}
 		Utils.ResponseJSON(w, http.StatusOK, response)
 		return
 	}

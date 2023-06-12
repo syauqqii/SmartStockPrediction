@@ -19,6 +19,7 @@ func ListDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var detailTransaksiResponses []Models.DetailTransaksiResponse
+
 	for _, detailTransaksi := range detailTransaksis {
 		detailTransaksiResponse := Models.DetailTransaksiResponse{
 			ID:              detailTransaksi.ID,
@@ -34,10 +35,10 @@ func ListDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 	Utils.ResponseJSON(w, http.StatusOK, response)
 }
 
-// GetDetailTransaksiByID mengembalikan detail transaksi berdasarkan ID
 func GetDetailTransaksiByID(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	detailTransaksiID, err := strconv.Atoi(params["id"])
+
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
@@ -45,6 +46,7 @@ func GetDetailTransaksiByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var detailTransaksi Models.DetailTransaksi
+
 	if err := Database.DB.First(&detailTransaksi, detailTransaksiID).Error; err != nil {
 		response := map[string]string{"message": "detail transaksi tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
@@ -72,6 +74,7 @@ func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var transaksi Models.Transaksi
+
 	if err := Database.DB.First(&transaksi, detailTransaksiInput.IDTransaksi).Error; err != nil {
 		response := map[string]string{"message": "transaksi tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
@@ -79,17 +82,34 @@ func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var produk Models.Produk
+
 	if err := Database.DB.First(&produk, detailTransaksiInput.IDProduk).Error; err != nil {
 		response := map[string]string{"message": "produk tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
 		return
 	}
 
+	if detailTransaksiInput.JumlahProduk > produk.StokProduk {
+		response := map[string]interface{}{
+			"message":      "stok produk tidak mencukupi",
+			"sisa_produk":  produk.StokProduk,
+		}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		return
+	}
+
 	detailTransaksi := Models.DetailTransaksi{
-		IDTransaksi:     detailTransaksiInput.IDTransaksi,
-		IDProduk:        detailTransaksiInput.IDProduk,
-		JumlahProduk:    detailTransaksiInput.JumlahProduk,
-		HargaProduk:     detailTransaksiInput.HargaProduk,
+		IDTransaksi:  detailTransaksiInput.IDTransaksi,
+		IDProduk:     detailTransaksiInput.IDProduk,
+		JumlahProduk: detailTransaksiInput.JumlahProduk,
+		HargaProduk:  produk.HargaProduk,
+	}
+
+	produk.StokProduk -= detailTransaksiInput.JumlahProduk
+	if err := Database.DB.Save(&produk).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		return
 	}
 
 	if err := Database.DB.Create(&detailTransaksi).Error; err != nil {
@@ -102,66 +122,3 @@ func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 	Utils.ResponseJSON(w, http.StatusCreated, response)
 }
 
-func UpdateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	detailTransaksiID, err := strconv.Atoi(params["id"])
-	if err != nil {
-		response := map[string]string{"message": err.Error()}
-		Utils.ResponseJSON(w, http.StatusBadRequest, response)
-		return
-	}
-
-	var detailTransaksi Models.DetailTransaksi
-	if err := Database.DB.First(&detailTransaksi, detailTransaksiID).Error; err != nil {
-		response := map[string]string{"message": "detail transaksi tidak ditemukan"}
-		Utils.ResponseJSON(w, http.StatusNotFound, response)
-		return
-	}
-
-	var detailTransaksiInput Models.DetailTransaksiInput
-	if err := Utils.DecodeJSONBody(w, r, &detailTransaksiInput); err != nil {
-		response := map[string]string{"message": err.Error()}
-		Utils.ResponseJSON(w, http.StatusBadRequest, response)
-		return
-	}
-
-	detailTransaksi.IDTransaksi = detailTransaksiInput.IDTransaksi
-	detailTransaksi.IDProduk = detailTransaksiInput.IDProduk
-	detailTransaksi.JumlahProduk = detailTransaksiInput.JumlahProduk
-	detailTransaksi.HargaProduk = detailTransaksiInput.HargaProduk
-
-	if err := Database.DB.Save(&detailTransaksi).Error; err != nil {
-		response := map[string]string{"message": err.Error()}
-		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
-		return
-	}
-
-	response := map[string]string{"message": "berhasil mengupdate detail transaksi"}
-	Utils.ResponseJSON(w, http.StatusOK, response)
-}
-
-func DeleteDetailTransaksi(w http.ResponseWriter, r *http.Request) {
-	params := mux.Vars(r)
-	detailTransaksiID, err := strconv.Atoi(params["id"])
-	if err != nil {
-		response := map[string]string{"message": err.Error()}
-		Utils.ResponseJSON(w, http.StatusBadRequest, response)
-		return
-	}
-
-	var detailTransaksi Models.DetailTransaksi
-	if err := Database.DB.First(&detailTransaksi, detailTransaksiID).Error; err != nil {
-		response := map[string]string{"message": "detail transaksi tidak ditemukan"}
-		Utils.ResponseJSON(w, http.StatusNotFound, response)
-		return
-	}
-
-	if err := Database.DB.Delete(&detailTransaksi).Error; err != nil {
-		response := map[string]string{"message": err.Error()}
-		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
-		return
-	}
-
-	response := map[string]string{"message": "berhasil menghapus detail transaksi"}
-	Utils.ResponseJSON(w, http.StatusOK, response)
-}
