@@ -25,7 +25,8 @@ func RunRoute() {
 	admin := r.PathPrefix("/admin").Subrouter()
 	admin.Use(Middleware.JWTAdminMiddleware)
 
-	admin.HandleFunc("/rekomendasi", Admin.GetRecommendation).Methods("GET")
+	admin.HandleFunc("/rekomendasi-dari-stok", Admin.GetRecommendation).Methods("GET")
+	admin.HandleFunc("/rekomendasi-dari-penjualan", Admin.GetRecommendationByTransaction).Methods("GET")
 
 	// >> CRUD USER ROUTE
 	admin.HandleFunc("/users", Admin.ListUser).Methods("GET")
