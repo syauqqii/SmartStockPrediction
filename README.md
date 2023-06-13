@@ -20,6 +20,7 @@ atau bisa juga
 ```
 go run main.go
 ```
+Downlaod postman lalu import [FILE INI]() ke postman untuk test API
 
 ## Diagram Table Database
 <img src="https://github.com/syauqqii/SmartStockPrediction/blob/main/Others/Screenshot%20(752).png">
