@@ -3,8 +3,23 @@ Aplikasi yang kami buat, maksud saya backend yang kami buat kami harapkan berjal
 ekspetasi bisa menerapkan ML di backend ini untuk memprediksi stok mana yang lebih baik diisi (rekomendasi lah)
 dengan menggunakan rumus regresi linier.
 
-
 stok barang ya bukan stock saham
+
+## Instalasi
+```
+git clone https://github.com/syauqqii/SmartStockPrediction
+```
+```
+cd SmartStockPrediction
+```
+Start mysql untuk membuat database baru kemudian sesuaikan nama database nya di .env file
+```
+go run .
+```
+atau bisa juga
+```
+go run main.go
+```
 
 ## Diagram Table Database
 <img src="https://github.com/syauqqii/SmartStockPrediction/blob/main/Others/Screenshot%20(752).png">
