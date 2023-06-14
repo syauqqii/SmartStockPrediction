@@ -145,5 +145,5 @@ func UpdatePelanggan(w http.ResponseWriter, r *http.Request) {
 
 	response := map[string]string{"message": "berhasil update pelanggan"}
 	Utils.ResponseJSON(w, http.StatusOK, response)
-	Utils.Logger(3, "Kasir/PelangganController.go -> GetPelangganByID()")
+	Utils.Logger(3, "Kasir/PelangganController.go -> UpdatePelanggan()")
 }
