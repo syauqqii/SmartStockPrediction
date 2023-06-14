@@ -25,11 +25,12 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 		if err == gorm.ErrRecordNotFound {
 			response := map[string]string{"message": "produk tidak ditemukan"}
 			Utils.ResponseJSON(w, http.StatusNotFound, response)
+			Utils.Logger(2, "Kasir/ProdukController.go -> GetProdukByID() - 2")
 			return
 		}
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
-		Utils.Logger(2, "Kasir/ProdukController.go -> GetProdukByID() - 2")
+		Utils.Logger(2, "Kasir/ProdukController.go -> GetProdukByID() - 3")
 		return
 	}
 
