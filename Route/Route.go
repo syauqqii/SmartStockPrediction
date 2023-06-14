@@ -1,9 +1,12 @@
 package Route
 
 import (
+	"os"
 	"fmt"
-	"log"
+	"syscall"
+	"context"
 	"net/http"
+	"os/signal"
 	"github.com/gorilla/mux"
 	"SmartStockPrediction/Utils"
 	"SmartStockPrediction/Middleware"
@@ -102,6 +105,29 @@ func RunRoute() {
 
 	fmt.Println("\n\n ------------------------------------------- [ LOG History ] -------------------------------------------\n")
 
-	// Start serve
-	log.Fatal(http.ListenAndServe(Utils.APP_CONF, r))
+	// Start server with goroutine
+	server := &http.Server{
+		Addr:    Utils.APP_CONF,
+		Handler: r,
+	}
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			Utils.Logger(4, err.Error())
+		}
+	}()
+
+	// Wait for SIGINT (Ctrl+C)
+	stopChan := make(chan os.Signal, 1)
+	signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
+
+	// Block until the signal is received
+	<-stopChan
+
+	// Shutdown the server gracefully
+	if err := server.Shutdown(context.Background()); err != nil {
+		Utils.Logger(4, err.Error())
+	}
+
+	Utils.Logger(3, "Berhasil keluar!")
 }

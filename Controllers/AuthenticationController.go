@@ -1,6 +1,7 @@
 package Controllers
 
 import (
+	"fmt"
 	"time"
 	"net/http"
 	"gorm.io/gorm"
@@ -20,6 +21,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err := decoder.Decode(&userInput); err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "AuthenticationController.go -> Login() - 1")
 		return
 	}
 
@@ -32,10 +34,12 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		case gorm.ErrRecordNotFound:
 			response := map[string]string{"message": "username atau password salah"}
 			Utils.ResponseJSON(w, http.StatusUnauthorized, response)
+			Utils.Logger(2, "AuthenticationController.go -> Login() - 2")
 			return
 		default:
 			response := map[string]string{"message": err.Error()}
 			Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+			Utils.Logger(2, "AuthenticationController.go -> Login() - 3")
 			return
 		}
 	}
@@ -43,6 +47,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userInput.Password)); err != nil {
 		response := map[string]string{"message": "username atau password salah"}
 		Utils.ResponseJSON(w, http.StatusUnauthorized, response)
+		Utils.Logger(2, "AuthenticationController.go -> Login() - 4")
 		return
 	}
 
@@ -66,6 +71,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "AuthenticationController.go -> Login() - 5")
 		return
 	}
 
@@ -82,6 +88,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			"token_expired_at":   formattedExpTime,
 		}
 		Utils.ResponseJSON(w, http.StatusOK, response)
+		Utils.Logger(3, "AuthenticationController.go -> Login() - ADMIN")
 		return
 	} else if user.Role == "kasir" {
 		response := map[string]interface{}{
@@ -89,6 +96,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 			"token_expired_at":   formattedExpTime,
 		}
 		Utils.ResponseJSON(w, http.StatusOK, response)
+		Utils.Logger(3, "AuthenticationController.go -> Login() - KASIR")
 		return
 	}
 }
@@ -99,12 +107,14 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err := Utils.DecodeJSONBody(w, r, &userInput); err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "AuthenticationController.go -> Register() - 1")
 		return
 	}
 
 	if userInput.Role != "admin" && userInput.Role != "kasir" {
 		response := map[string]string{"message": "role tidak ada"}
 		Utils.ResponseJSON(w, http.StatusConflict, response)
+		Utils.Logger(2, "AuthenticationController.go -> Register() - 2")
 		return
 	}
 
@@ -113,6 +123,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "AuthenticationController.go -> Register() - 3")
 		return
 	}
 
@@ -127,17 +138,20 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Where("username = ?", userInput.Username).First(&existingUser).Error; err == nil {
 		response := map[string]string{"message": "username sudah ada"}
 		Utils.ResponseJSON(w, http.StatusConflict, response)
+		Utils.Logger(2, "AuthenticationController.go -> Register() - 4")
 		return
 	}
 
 	if err := Database.DB.Create(&user).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "AuthenticationController.go -> Register() - 5")
 		return
 	}
 
 	response := map[string]string{"message": "berhasil membuat user"}
 	Utils.ResponseJSON(w, http.StatusCreated, response)
+	Utils.Logger(3, fmt.Sprintf("AuthenticationController.go -> Register() - %s", userInput.Role))
 }
 
 func Logout(w http.ResponseWriter, r *http.Request) {
@@ -151,4 +165,5 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 
 	response := map[string]string{"message": "berhasil keluar"}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "AuthenticationController.go -> Logout()")
 }
