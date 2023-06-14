@@ -129,5 +129,5 @@ func RunRoute() {
 		Utils.Logger(4, err.Error())
 	}
 
-	Utils.Logger(3, "Berhasil keluar!")
+	Utils.Logger(3, "Berhasil keluar")
 }

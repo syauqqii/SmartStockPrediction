@@ -25,7 +25,7 @@ func GetRecommendation(w http.ResponseWriter, r *http.Request) {
 	for namaProduk, presentase := range recommendations {
 		var produk Models.Produk
 		if err := Database.DB.Where("nama_produk = ?", namaProduk).First(&produk).Error; err != nil {
-			fmt.Println("Gagal mengambil data produk:", err)
+			Utils.Logger(2, fmt.Sprintf("Admin/MachineLearning.go -> GetRecommendation() - %s", err.Error()))
 			continue
 		}
 
@@ -57,19 +57,20 @@ func GetRecommendation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Admin/MachineLearning.go -> GetRecommendation()")
 	return
 }
 
 func GetProductRecommendations() map[string]float64 {
 	var produkList []Models.Produk
 	if err := Database.DB.Find(&produkList).Error; err != nil {
-		fmt.Println("Gagal mengambil data produk:", err)
+		Utils.Logger(2, fmt.Sprintf("Admin/MachineLearning.go -> GetProductRecommendations() - %s", err.Error()))
 		return nil
 	}
 
 	var detailTransaksiList []Models.DetailTransaksi
 	if err := Database.DB.Find(&detailTransaksiList).Error; err != nil {
-		fmt.Println("Gagal mengambil data detail transaksi:", err)
+		Utils.Logger(2, fmt.Sprintf("Admin/MachineLearning.go -> GetProductRecommendations() - %s", err.Error()))
 		return nil
 	}
 
@@ -78,7 +79,8 @@ func GetProductRecommendations() map[string]float64 {
 	for _, dt := range detailTransaksiList {
 		var produk Models.Produk
 		if err := Database.DB.Where("id_produk = ?", dt.IDProduk).First(&produk).Error; err != nil {
-			fmt.Println("Gagal mengambil data produk dengan ID:", dt.IDProduk)
+			// fmt.Println("Gagal mengambil data produk dengan ID:", dt.IDProduk)
+			Utils.Logger(2, fmt.Sprintf("Admin/MachineLearning.go -> GetProductRecommendations() - %s", err.Error()))
 			continue
 		}
 
@@ -106,7 +108,8 @@ func GetRecommendationByTransaction(w http.ResponseWriter, r *http.Request) {
 	for namaProduk, presentase := range recommendations {
 		var produk Models.Produk
 		if err := Database.DB.Where("nama_produk = ?", namaProduk).First(&produk).Error; err != nil {
-			fmt.Println("Gagal mengambil data produk:", err)
+			// fmt.Println("Gagal mengambil data produk:", err)
+			Utils.Logger(2, fmt.Sprintf("Admin/MachineLearning.go -> GetRecommendationByTransaction() - %s", err.Error()))
 			continue
 		}
 
@@ -139,6 +142,7 @@ func GetRecommendationByTransaction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Admin/MachineLearning.go -> GetRecommendationByTransaction()")
 	return
 }
 
@@ -146,12 +150,14 @@ func GetProductRecommendationsByTransaction() map[string]float64 {
 	var produkList []Models.Produk
 	if err := Database.DB.Find(&produkList).Error; err != nil {
 		fmt.Println("Gagal mengambil data produk:", err)
+		Utils.Logger(2, fmt.Sprintf("Admin/MachineLearning.go -> GetProductRecommendationsByTransaction() - %s", err.Error()))
 		return nil
 	}
 
 	var detailTransaksiList []Models.DetailTransaksi
 	if err := Database.DB.Find(&detailTransaksiList).Error; err != nil {
 		fmt.Println("Gagal mengambil data detail transaksi:", err)
+		Utils.Logger(2, fmt.Sprintf("Admin/MachineLearning.go -> GetProductRecommendationsByTransaction() - %s", err.Error()))
 		return nil
 	}
 
