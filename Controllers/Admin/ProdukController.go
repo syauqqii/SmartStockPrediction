@@ -16,6 +16,7 @@ func CreateProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Utils.DecodeJSONBody(w, r, &produkInput); err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> CreateProduk() - 1")
 		return
 	}
 
@@ -23,6 +24,7 @@ func CreateProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Where("nama_produk = ?", produkInput.NamaProduk).First(&existingProduk).Error; err == nil {
 		response := map[string]string{"message": "nama produk sudah ada"}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> CreateProduk() - 2")
 		return
 	}
 
@@ -36,11 +38,13 @@ func CreateProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Create(&produk).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> CreateProduk() - 3")
 		return
 	}
 
 	response := map[string]string{"message": "berhasil menambahkan produk"}
 	Utils.ResponseJSON(w, http.StatusCreated, response)
+	Utils.Logger(3, "Admin/ProdukController.go -> CreateProduk()")
 }
 
 func GetProdukByID(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +53,7 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> GetProdukByID() - 1")
 		return
 	}
 
@@ -57,10 +62,12 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 		if err == gorm.ErrRecordNotFound {
 			response := map[string]string{"message": "produk tidak ditemukan"}
 			Utils.ResponseJSON(w, http.StatusNotFound, response)
+			Utils.Logger(2, "Admin/ProdukController.go -> GetProdukByID() - 2")
 			return
 		}
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> GetProdukByID() - 3")
 		return
 	}
 
@@ -74,6 +81,7 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 
 	response := map[string]interface{}{"produk": produkResponse}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Admin/ProdukController.go -> GetProdukByID()")
 }
 
 func GetAllProduk(w http.ResponseWriter, r *http.Request) {
@@ -81,6 +89,7 @@ func GetAllProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Preload("KategoriProduk").Find(&produks).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> GetAllProduk() - 1")
 		return
 	}
 
@@ -98,6 +107,7 @@ func GetAllProduk(w http.ResponseWriter, r *http.Request) {
 
 	response := Models.ProdukListResponse{Produks: produkResponses}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Admin/ProdukController.go -> GetAllProduk()")
 }
 
 func UpdateProduk(w http.ResponseWriter, r *http.Request) {
@@ -106,6 +116,7 @@ func UpdateProduk(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> UpdateProduk() - 1")
 		return
 	}
 
@@ -113,6 +124,7 @@ func UpdateProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.First(&produk, produkID).Error; err != nil {
 		response := map[string]string{"message": "produk tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> UpdateProduk() - 2")
 		return
 	}
 
@@ -120,6 +132,7 @@ func UpdateProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Utils.DecodeJSONBody(w, r, &produkInput); err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> UpdateProduk() - 3")
 		return
 	}
 
@@ -127,6 +140,7 @@ func UpdateProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Where("id_produk != ?", produkID).Where("nama_produk = ?", produkInput.NamaProduk).First(&existingProduk).Error; err == nil {
 		response := map[string]string{"message": "nama produk sudah ada"}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> UpdateProduk() - 4")
 		return
 	}
 
@@ -138,11 +152,13 @@ func UpdateProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Save(&produk).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> UpdateProduk() - 5")
 		return
 	}
 
 	response := map[string]string{"message": "berhasil mengupdate produk"}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Admin/ProdukController.go -> UpdateProduk()")
 }
 
 func DeleteProduk(w http.ResponseWriter, r *http.Request) {
@@ -151,6 +167,7 @@ func DeleteProduk(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> DeleteProduk() - 1")
 		return
 	}
 
@@ -158,15 +175,18 @@ func DeleteProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.First(&produk, produkID).Error; err != nil {
 		response := map[string]string{"message": "produk tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> DeleteProduk() - 2")
 		return
 	}
 
 	if err := Database.DB.Delete(&Models.Produk{}, produkID).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Admin/ProdukController.go -> DeleteProduk() - 3")
 		return
 	}
 
 	response := map[string]string{"message": "berhasil menghapus produk"}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Admin/ProdukController.go -> DeleteProduk()")
 }
