@@ -15,94 +15,82 @@ import (
 func RunRoute() {
 	r := mux.NewRouter()
 
-	// ------------------------[  NO AUTH  ]----------------------------------
+	// ------------------------[  NO AUTH ROUTE ]----------------------------------
 	r.HandleFunc("/login", Controllers.Login).Methods("POST")
 	r.HandleFunc("/register", Controllers.Register).Methods("POST")
 	r.HandleFunc("/logout", Controllers.Logout).Methods("GET")
 	
 
-	// ------------------------[ AUTH ADMIN ]----------------------------------
+	// ------------------------[ AUTH ADMIN ROUTE ]----------------------------------
 	admin := r.PathPrefix("/admin").Subrouter()
-	admin.Use(Middleware.JWTAdminMiddleware)
-
-	admin.HandleFunc("/rekomendasi-dari-stok", Admin.GetRecommendation).Methods("GET")
-	admin.HandleFunc("/rekomendasi-dari-penjualan", Admin.GetRecommendationByTransaction).Methods("GET")
+	admin.Use(Middleware.JWTAdminMiddleware)	// Set Middleware -> admin
 
 	// >> CRUD USER ROUTE
-	admin.HandleFunc("/users", Admin.ListUser).Methods("GET")
-	admin.HandleFunc("/users", Admin.CreateUser).Methods("POST")
-	admin.HandleFunc("/users/{id}", Admin.GetUserByID).Methods("GET")
-	admin.HandleFunc("/users/{id}", Admin.UpdateUser).Methods("PUT")
-	admin.HandleFunc("/users/{id}", Admin.DeleteUser).Methods("DELETE")
+	admin.HandleFunc("/users", Admin.CreateUser).Methods("POST")		// Create
+	admin.HandleFunc("/users", Admin.ListUser).Methods("GET")			// Read
+	admin.HandleFunc("/users/{id}", Admin.GetUserByID).Methods("GET")	// Read By ID
+	admin.HandleFunc("/users/{id}", Admin.UpdateUser).Methods("PUT")	// Update
+	admin.HandleFunc("/users/{id}", Admin.DeleteUser).Methods("DELETE")	// Delete
 
 	// >> CRUD PELANGGAN ROUTE
-	admin.HandleFunc("/pelanggan", Admin.ListPelanggan).Methods("GET")
-	admin.HandleFunc("/pelanggan", Admin.CreatePelanggan).Methods("POST")
-	admin.HandleFunc("/pelanggan/{id}", Admin.GetPelangganByID).Methods("GET")
-	admin.HandleFunc("/pelanggan/{id}", Admin.UpdatePelanggan).Methods("PUT")
-	admin.HandleFunc("/pelanggan/{id}", Admin.DeletePelanggan).Methods("DELETE")
+	admin.HandleFunc("/pelanggan", Admin.CreatePelanggan).Methods("POST")			// Create
+	admin.HandleFunc("/pelanggan", Admin.ListPelanggan).Methods("GET")				// Read
+	admin.HandleFunc("/pelanggan/{id}", Admin.GetPelangganByID).Methods("GET")		// Read By ID
+	admin.HandleFunc("/pelanggan/{id}", Admin.UpdatePelanggan).Methods("PUT")		// Update
+	admin.HandleFunc("/pelanggan/{id}", Admin.DeletePelanggan).Methods("DELETE")	// Delete
 
 	// >> CRUD KATEGORI PRODUK ROUTE
-	admin.HandleFunc("/kategori-produk", Admin.ListKategoriProduk).Methods("GET")
-	admin.HandleFunc("/kategori-produk", Admin.CreateKategoriProduk).Methods("POST")
-	admin.HandleFunc("/kategori-produk/{id}", Admin.GetKategoriProdukByID).Methods("GET")
-	admin.HandleFunc("/kategori-produk/{id}", Admin.UpdateKategoriProduk).Methods("PUT")
-	admin.HandleFunc("/kategori-produk/{id}", Admin.DeleteKategoriProduk).Methods("DELETE")
+	admin.HandleFunc("/kategori-produk", Admin.CreateKategoriProduk).Methods("POST")		// Create
+	admin.HandleFunc("/kategori-produk", Admin.ListKategoriProduk).Methods("GET")			// Read
+	admin.HandleFunc("/kategori-produk/{id}", Admin.GetKategoriProdukByID).Methods("GET")	// Read By ID
+	admin.HandleFunc("/kategori-produk/{id}", Admin.UpdateKategoriProduk).Methods("PUT")	// Update
+	admin.HandleFunc("/kategori-produk/{id}", Admin.DeleteKategoriProduk).Methods("DELETE")	// Delete
 
 	// >> CRUD PRODUK ROUTE
-	admin.HandleFunc("/produk", Admin.GetAllProduk).Methods("GET")
-	admin.HandleFunc("/produk", Admin.CreateProduk).Methods("POST")
-	admin.HandleFunc("/produk/{id}", Admin.GetProdukByID).Methods("GET")
-	admin.HandleFunc("/produk/{id}", Admin.UpdateProduk).Methods("PUT")
-	admin.HandleFunc("/produk/{id}", Admin.DeleteProduk).Methods("DELETE")
+	admin.HandleFunc("/produk", Admin.CreateProduk).Methods("POST")			// Create
+	admin.HandleFunc("/produk", Admin.GetAllProduk).Methods("GET")			// Read
+	admin.HandleFunc("/produk/{id}", Admin.GetProdukByID).Methods("GET")	// Read By ID
+	admin.HandleFunc("/produk/{id}", Admin.UpdateProduk).Methods("PUT")		// Update
+	admin.HandleFunc("/produk/{id}", Admin.DeleteProduk).Methods("DELETE")	// Delete
 
-	// >> CRUD KERANJANG ROUTE
-	admin.HandleFunc("/keranjang", Admin.ListKeranjangs).Methods("GET")
-	admin.HandleFunc("/keranjang", Admin.CreateKeranjang).Methods("POST")
-	admin.HandleFunc("/keranjang/{id}", Admin.GetKeranjangByID).Methods("GET")
-	admin.HandleFunc("/keranjang/{id}", Admin.UpdateKeranjang).Methods("PUT")
-	admin.HandleFunc("/keranjang/{id}", Admin.DeleteKeranjang).Methods("DELETE")
+	// >> MACHINE LEARNING ROUTE
+	admin.HandleFunc("/rekomendasi-dari-stok", Admin.GetRecommendation).Methods("GET")						// Read
+	admin.HandleFunc("/rekomendasi-dari-penjualan", Admin.GetRecommendationByTransaction).Methods("GET")	// Read
 
-	// >> CRUD TRANSAKSI ROUTE
-	admin.HandleFunc("/transaksi", Admin.GetAllTransaksi).Methods("GET")
-	admin.HandleFunc("/transaksi", Admin.CreateTransaksi).Methods("POST")
-	admin.HandleFunc("/transaksi/{id}", Admin.GetTransaksiByID).Methods("GET")
-	admin.HandleFunc("/transaksi/{id}", Admin.DeleteTransaksi).Methods("DELETE")
-
-	// ------------------------[ AUTH KASIR ]----------------------------------
+	// ------------------------[ AUTH KASIR ROUTE ]----------------------------------
 	kasir := r.PathPrefix("/kasir").Subrouter()
-	kasir.Use(Middleware.JWTKasirMiddleware)
+	kasir.Use(Middleware.JWTKasirMiddleware) // Set Middleware -> kasir
 
-	// >> CRUD PELANGGAN ROUTE
-	kasir.HandleFunc("/pelanggan", Kasir.ListPelanggan).Methods("GET")
-	kasir.HandleFunc("/pelanggan", Kasir.CreatePelanggan).Methods("POST")
-	kasir.HandleFunc("/pelanggan/{id}", Kasir.GetPelangganByID).Methods("GET")
-	kasir.HandleFunc("/pelanggan/{id}", Kasir.UpdatePelanggan).Methods("PUT")
+	// >> CRU PELANGGAN ROUTE
+	kasir.HandleFunc("/pelanggan", Kasir.CreatePelanggan).Methods("POST")		// Create
+	kasir.HandleFunc("/pelanggan", Kasir.ListPelanggan).Methods("GET")			// Read
+	kasir.HandleFunc("/pelanggan/{id}", Kasir.GetPelangganByID).Methods("GET")	// Read By ID
+	kasir.HandleFunc("/pelanggan/{id}", Kasir.UpdatePelanggan).Methods("PUT")	// Update
 
-	// >> CRUD KATEGORI PRODUK ROUTE
-	kasir.HandleFunc("/kategori-produk", Admin.ListKategoriProduk).Methods("GET")
-	kasir.HandleFunc("/kategori-produk/{id}", Kasir.GetKategoriProdukByID).Methods("GET")
+	// >> R KATEGORI PRODUK ROUTE
+	kasir.HandleFunc("/kategori-produk", Admin.ListKategoriProduk).Methods("GET")			// Read
+	kasir.HandleFunc("/kategori-produk/{id}", Kasir.GetKategoriProdukByID).Methods("GET")	// Read By ID
 
-	// >> CRUD PRODUK ROUTE
-	kasir.HandleFunc("/produk", Admin.GetAllProduk).Methods("GET")
-	kasir.HandleFunc("/produk/{id}", Kasir.GetProdukByID).Methods("GET")
+	// >> R PRODUK ROUTE
+	kasir.HandleFunc("/produk", Admin.GetAllProduk).Methods("GET")			// Read
+	kasir.HandleFunc("/produk/{id}", Kasir.GetProdukByID).Methods("GET")	// Read By ID
 
 	// >> CRUD KERANJANG ROUTE
-	kasir.HandleFunc("/keranjang", Kasir.ListKeranjangs).Methods("GET")
-	kasir.HandleFunc("/keranjang", Kasir.CreateKeranjang).Methods("POST")
-	kasir.HandleFunc("/keranjang/{id}", Kasir.GetKeranjangByID).Methods("GET")
-	kasir.HandleFunc("/keranjang/{id}", Kasir.UpdateKeranjang).Methods("PUT")
-	kasir.HandleFunc("/keranjang/{id}", Kasir.DeleteKeranjang).Methods("DELETE")
+	kasir.HandleFunc("/keranjang", Kasir.CreateKeranjang).Methods("POST")			// Create
+	kasir.HandleFunc("/keranjang", Kasir.ListKeranjangs).Methods("GET")				// Read
+	kasir.HandleFunc("/keranjang/{id}", Kasir.GetKeranjangByID).Methods("GET")		// Read By ID
+	kasir.HandleFunc("/keranjang/{id}", Kasir.UpdateKeranjang).Methods("PUT")		// Update
+	kasir.HandleFunc("/keranjang/{id}", Kasir.DeleteKeranjang).Methods("DELETE")	// Delete
 
-	// >> CRUD TRANSAKSI ROUTE
-	kasir.HandleFunc("/transaksi", Kasir.GetAllTransaksi).Methods("GET")
-	kasir.HandleFunc("/transaksi", Kasir.CreateTransaksi).Methods("POST")
-	kasir.HandleFunc("/transaksi/{id}", Kasir.GetTransaksiByID).Methods("GET")
+	// >> CR TRANSAKSI ROUTE
+	kasir.HandleFunc("/transaksi", Kasir.CreateTransaksi).Methods("POST")		// Create
+	kasir.HandleFunc("/transaksi", Kasir.GetAllTransaksi).Methods("GET")		// Read
+	kasir.HandleFunc("/transaksi/{id}", Kasir.GetTransaksiByID).Methods("GET")	// Read By ID
 
 	// >> CRUD DETAIL TRANSAKSI ROUTE
-	kasir.HandleFunc("/detail-transaksi", Kasir.ListDetailTransaksi).Methods("GET")
-	kasir.HandleFunc("/detail-transaksi", Kasir.CreateDetailTransaksi).Methods("POST")
-	kasir.HandleFunc("/detail-transaksi/{id}", Kasir.GetDetailTransaksiByID).Methods("GET")
+	kasir.HandleFunc("/detail-transaksi", Kasir.CreateDetailTransaksi).Methods("POST")		// Create
+	kasir.HandleFunc("/detail-transaksi", Kasir.ListDetailTransaksi).Methods("GET")			// Read
+	kasir.HandleFunc("/detail-transaksi/{id}", Kasir.GetDetailTransaksiByID).Methods("GET")	// Read By ID
 
 	// ------------------------[  START APP  ]----------------------------------
 	if Utils.IS_DISPLAY == "1" {
@@ -114,5 +102,6 @@ func RunRoute() {
 
 	fmt.Println("\n\n ------------------------------------------- [ LOG History ] -------------------------------------------\n")
 
+	// Start serve
 	log.Fatal(http.ListenAndServe(Utils.APP_CONF, r))
 }

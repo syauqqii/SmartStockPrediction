@@ -175,7 +175,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/produk/2",
+											"raw": "localhost:8080/kasir/produk/1",
 											"host": [
 												"localhost"
 											],
@@ -183,7 +183,7 @@
 											"path": [
 												"kasir",
 												"produk",
-												"2"
+												"1"
 											]
 										}
 									},
@@ -201,7 +201,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 1,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 5\r\n}"
+											"raw": "{\r\n  \"id_pelanggan\": 2,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 2\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/keranjang",
@@ -263,10 +263,10 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 1,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 3\r\n}"
+											"raw": "{\r\n  \"id_pelanggan\": 1,\r\n  \"id_produk\": 3,\r\n  \"jumlah_produk\": 3\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/kasir/keranjang/1",
+											"raw": "localhost:8080/kasir/keranjang/3",
 											"host": [
 												"localhost"
 											],
@@ -274,7 +274,7 @@
 											"path": [
 												"kasir",
 												"keranjang",
-												"1"
+												"3"
 											]
 										}
 									},
@@ -286,7 +286,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/keranjang/2",
+											"raw": "localhost:8080/kasir/keranjang/4",
 											"host": [
 												"localhost"
 											],
@@ -294,7 +294,7 @@
 											"path": [
 												"kasir",
 												"keranjang",
-												"2"
+												"4"
 											]
 										}
 									},
@@ -366,26 +366,6 @@
 										}
 									},
 									"response": []
-								},
-								{
-									"name": "Delete Transaksi By ID",
-									"request": {
-										"method": "DELETE",
-										"header": [],
-										"url": {
-											"raw": "localhost:8080/kasir/transaksi/2",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"kasir",
-												"transaksi",
-												"2"
-											]
-										}
-									},
-									"response": []
 								}
 							]
 						},
@@ -399,7 +379,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_transaksi\": 1,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 3,\r\n  \"harga_produk\": 10000.00\r\n}"
+											"raw": "{\r\n  \"id_transaksi\": 1,\r\n  \"id_produk\": 5,\r\n  \"jumlah_produk\": 2\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/detail-transaksi",
@@ -471,7 +451,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"username\": \"adm00n\",\r\n    \"password\": \"adm00n123\",\r\n    \"role\": \"kasir\"\r\n}"
+											"raw": "{\r\n    \"username\": \"kasir\",\r\n    \"password\": \"kasir\",\r\n    \"role\": \"kasir\"\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/admin/users",
@@ -582,7 +562,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"nama_pelanggan\": \"nahida\",\r\n    \"nomor_hp\": \"127001\"\r\n}"
+											"raw": "{\r\n    \"nama_pelanggan\": \"nahida\",\r\n    \"nomor_hp\": \"087781339449\"\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/admin/pelanggan",
@@ -804,7 +784,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"nama_produk\": \"SUMSANG\",\r\n  \"harga_produk\": 10000,\r\n  \"id_kategori_produk\": 1\r\n}"
+											"raw": "{\r\n  \"nama_produk\": \"DA Meca 6x Plus\",\r\n  \"harga_produk\": 520000,\r\n  \"stok_produk\": 5,\r\n  \"id_kategori_produk\": 1\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/admin/produk",
@@ -845,7 +825,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/produk/2",
+											"raw": "localhost:8080/admin/produk/3",
 											"host": [
 												"localhost"
 											],
@@ -853,7 +833,7 @@
 											"path": [
 												"admin",
 												"produk",
-												"2"
+												"3"
 											]
 										}
 									},
@@ -866,10 +846,10 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"nama_produk\": \"SUMSANG\",\r\n  \"harga_produk\": 100000,\r\n  \"id_kategori_produk\": 1\r\n}"
+											"raw": "{\r\n  \"nama_produk\": \"Logitech G102 Light Sync\",\r\n  \"harga_produk\": 250000,\r\n  \"stok_produk\": 5,\r\n  \"id_kategori_produk\": 2\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/admin/produk/1",
+											"raw": "localhost:8080/admin/produk/3",
 											"host": [
 												"localhost"
 											],
@@ -877,7 +857,7 @@
 											"path": [
 												"admin",
 												"produk",
-												"1"
+												"3"
 											]
 										}
 									},
@@ -906,196 +886,41 @@
 							]
 						},
 						{
-							"name": "Keranjang",
+							"name": "Machine Learning",
 							"item": [
 								{
-									"name": "Create Keranjang",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 2,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 5\r\n}"
-										},
-										"url": {
-											"raw": "localhost:8080/admin/keranjang",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"admin",
-												"keranjang"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Get Keranjang",
+									"name": "Rekomendasi [STOK]",
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/keranjang",
+											"raw": "localhost:8080/admin/rekomendasi-dari-stok",
 											"host": [
 												"localhost"
 											],
 											"port": "8080",
 											"path": [
 												"admin",
-												"keranjang"
+												"rekomendasi-dari-stok"
 											]
 										}
 									},
 									"response": []
 								},
 								{
-									"name": "Get KeranjangBy ID",
+									"name": "Rekomendasi [PENJUALAN]",
 									"request": {
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/keranjang/2",
+											"raw": "localhost:8080/admin/rekomendasi-dari-penjualan",
 											"host": [
 												"localhost"
 											],
 											"port": "8080",
 											"path": [
 												"admin",
-												"keranjang",
-												"2"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Update Keranjang By ID",
-									"request": {
-										"method": "PUT",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 1,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 3\r\n}"
-										},
-										"url": {
-											"raw": "localhost:8080/admin/keranjang/1",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"admin",
-												"keranjang",
-												"1"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Delete Keranjang By ID",
-									"request": {
-										"method": "DELETE",
-										"header": [],
-										"url": {
-											"raw": "localhost:8080/admin/keranjang/2",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"admin",
-												"keranjang",
-												"2"
-											]
-										}
-									},
-									"response": []
-								}
-							]
-						},
-						{
-							"name": "Transaksi",
-							"item": [
-								{
-									"name": "Create Transaksi",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 2\r\n}"
-										},
-										"url": {
-											"raw": "localhost:8080/admin/transaksi",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"admin",
-												"transaksi"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Get Transaksi",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:8080/admin/transaksi",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"admin",
-												"transaksi"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Get Transaksi By ID",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "localhost:8080/admin/transaksi/2",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"admin",
-												"transaksi",
-												"2"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Delete Transaksi By ID",
-									"request": {
-										"method": "DELETE",
-										"header": [],
-										"url": {
-											"raw": "localhost:8080/admin/transaksi/2",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"admin",
-												"transaksi",
-												"2"
+												"rekomendasi-dari-penjualan"
 											]
 										}
 									},
@@ -1104,50 +929,6 @@
 							]
 						}
 					]
-				},
-				{
-					"name": "Login",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"kasir\",\r\n    \"password\": \"kasir\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8080/login",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin123\",\r\n    \"role\": \"admin\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8080/login",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"login"
-							]
-						}
-					},
-					"response": []
 				},
 				{
 					"name": "Logout",
@@ -1168,6 +949,72 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Login [ADMIN]",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login [KASIR]",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"kasir\",\r\n    \"password\": \"kasir\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"kasir\",\r\n    \"password\": \"kasir\",\r\n    \"role\": \"kasir\"\r\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
