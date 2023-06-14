@@ -16,6 +16,7 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Kasir/ProdukController.go -> GetProdukByID() - 1")
 		return
 	}
 
@@ -28,6 +29,7 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 		}
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/ProdukController.go -> GetProdukByID() - 2")
 		return
 	}
 
@@ -41,6 +43,7 @@ func GetProdukByID(w http.ResponseWriter, r *http.Request) {
 
 	response := map[string]interface{}{"produk": produkResponse}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Kasir/ProdukController.go -> GetProdukByID()")
 }
 
 func GetAllProduk(w http.ResponseWriter, r *http.Request) {
@@ -48,6 +51,7 @@ func GetAllProduk(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Preload("KategoriProduk").Find(&produks).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/ProdukController.go -> GetAllProduk() - 1")
 		return
 	}
 
@@ -65,4 +69,5 @@ func GetAllProduk(w http.ResponseWriter, r *http.Request) {
 
 	response := Models.ProdukListResponse{Produks: produkResponses}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Kasir/ProdukController.go -> GetAllProduk()")
 }
