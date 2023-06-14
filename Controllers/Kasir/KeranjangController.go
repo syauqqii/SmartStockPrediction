@@ -34,6 +34,15 @@ func CreateKeranjang(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if produk.StokProduk < keranjangInput.JumlahProduk {
+		response := map[string]interface{}{
+			"message":    "stok produk tidak mencukupi",
+			"sisa_stok":  produk.StokProduk,
+		}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		return
+	}
+
 	var keranjang Models.Keranjang
 
 	if err := Database.DB.Where("id_pelanggan = ? AND id_produk = ?", keranjangInput.IDPelanggan, keranjangInput.IDProduk).First(&keranjang).Error; err == nil {
@@ -61,10 +70,19 @@ func CreateKeranjang(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := map[string]string{"message": "berhasil menambahkan keranjang"}
+	produk.StokProduk -= keranjangInput.JumlahProduk
+	if err := Database.DB.Save(&produk).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
+	response := map[string]interface{}{
+		"message":   "berhasil menambahkan keranjang",
+		"sisa_stok": produk.StokProduk,
+	}
 	Utils.ResponseJSON(w, http.StatusCreated, response)
 }
-
 
 func GetKeranjangByID(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -131,6 +149,32 @@ func UpdateKeranjang(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if keranjangInput.JumlahProduk < keranjang.JumlahProduk {
+		// Jumlah produk berkurang
+		diff := keranjang.JumlahProduk - keranjangInput.JumlahProduk
+		if produk.StokProduk+diff < 0 {
+			response := map[string]interface{}{
+				"message":    "stok produk tidak mencukupi",
+				"sisa_stok":  produk.StokProduk,
+			}
+			Utils.ResponseJSON(w, http.StatusBadRequest, response)
+			return
+		}
+		produk.StokProduk += diff
+	} else if keranjangInput.JumlahProduk > keranjang.JumlahProduk {
+		// Jumlah produk bertambah
+		diff := keranjangInput.JumlahProduk - keranjang.JumlahProduk
+		if produk.StokProduk < diff {
+			response := map[string]interface{}{
+				"message":    "stok produk tidak mencukupi",
+				"sisa_stok":  produk.StokProduk,
+			}
+			Utils.ResponseJSON(w, http.StatusBadRequest, response)
+			return
+		}
+		produk.StokProduk -= diff
+	}
+
 	// Validasi jika ID pelanggan tidak berubah
 	if keranjang.IDPelanggan != keranjangInput.IDPelanggan {
 		response := map[string]string{"message": "Tidak dapat mengubah ID pelanggan"}
@@ -153,6 +197,12 @@ func UpdateKeranjang(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := Database.DB.Save(&produk).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		return
+	}
+
 	response := map[string]string{"message": "berhasil mengupdate keranjang"}
 	Utils.ResponseJSON(w, http.StatusOK, response)
 }
@@ -170,6 +220,20 @@ func DeleteKeranjang(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.First(&keranjang, keranjangID).Error; err != nil {
 		response := map[string]string{"message": "Keranjang tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		return
+	}
+
+	var produk Models.Produk
+	if err := Database.DB.First(&produk, keranjang.IDProduk).Error; err != nil {
+		response := map[string]string{"message": "Produk tidak ditemukan"}
+		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		return
+	}
+
+	produk.StokProduk += keranjang.JumlahProduk
+	if err := Database.DB.Save(&produk).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
 		return
 	}
 

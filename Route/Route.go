@@ -98,7 +98,6 @@ func RunRoute() {
 	kasir.HandleFunc("/transaksi", Kasir.GetAllTransaksi).Methods("GET")
 	kasir.HandleFunc("/transaksi", Kasir.CreateTransaksi).Methods("POST")
 	kasir.HandleFunc("/transaksi/{id}", Kasir.GetTransaksiByID).Methods("GET")
-	kasir.HandleFunc("/transaksi/{id}", Kasir.DeleteTransaksi).Methods("DELETE")
 
 	// >> CRUD DETAIL TRANSAKSI ROUTE
 	kasir.HandleFunc("/detail-transaksi", Kasir.ListDetailTransaksi).Methods("GET")
