@@ -22,7 +22,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"nama_pelanggan\": \"nahida\",\r\n    \"nomor_hp\": \"127001\"\r\n}"
+											"raw": "{\r\n    \"nama_pelanggan\": \"\",\r\n    \"nomor_hp\": \"\"\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/pelanggan",
@@ -63,7 +63,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/pelanggan/4",
+											"raw": "localhost:8080/kasir/pelanggan/{id}",
 											"host": [
 												"localhost"
 											],
@@ -71,7 +71,7 @@
 											"path": [
 												"kasir",
 												"pelanggan",
-												"4"
+												"{id}"
 											]
 										}
 									},
@@ -84,10 +84,10 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"nama_pelanggan\": \"nahida\",\r\n    \"nomor_hp\": \"127001\"\r\n}"
+											"raw": "{\r\n    \"nama_pelanggan\": \"\",\r\n    \"nomor_hp\": \"\"\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/kasir/pelanggan/4",
+											"raw": "localhost:8080/kasir/pelanggan/{id}",
 											"host": [
 												"localhost"
 											],
@@ -95,7 +95,7 @@
 											"path": [
 												"kasir",
 												"pelanggan",
-												"4"
+												"{id}"
 											]
 										}
 									},
@@ -131,7 +131,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/kategori-produk/4",
+											"raw": "localhost:8080/kasir/kategori-produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -139,7 +139,7 @@
 											"path": [
 												"kasir",
 												"kategori-produk",
-												"4"
+												"{id}"
 											]
 										}
 									},
@@ -175,7 +175,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/produk/1",
+											"raw": "localhost:8080/kasir/produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -183,7 +183,7 @@
 											"path": [
 												"kasir",
 												"produk",
-												"1"
+												"{id}"
 											]
 										}
 									},
@@ -201,7 +201,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 2,\r\n  \"id_produk\": 2,\r\n  \"jumlah_produk\": 2\r\n}"
+											"raw": "{\r\n  \"id_pelanggan\": ,\r\n  \"id_produk\": ,\r\n  \"jumlah_produk\": \r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/keranjang",
@@ -242,7 +242,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/keranjang/2",
+											"raw": "localhost:8080/kasir/keranjang/{id}",
 											"host": [
 												"localhost"
 											],
@@ -250,7 +250,7 @@
 											"path": [
 												"kasir",
 												"keranjang",
-												"2"
+												"{id}"
 											]
 										}
 									},
@@ -263,10 +263,10 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 1,\r\n  \"id_produk\": 3,\r\n  \"jumlah_produk\": 3\r\n}"
+											"raw": "{\r\n  \"id_pelanggan\": ,\r\n  \"id_produk\": ,\r\n  \"jumlah_produk\": \r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/kasir/keranjang/3",
+											"raw": "localhost:8080/kasir/keranjang/{id}",
 											"host": [
 												"localhost"
 											],
@@ -274,7 +274,7 @@
 											"path": [
 												"kasir",
 												"keranjang",
-												"3"
+												"{id}"
 											]
 										}
 									},
@@ -286,7 +286,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/keranjang/4",
+											"raw": "localhost:8080/kasir/keranjang/{id}",
 											"host": [
 												"localhost"
 											],
@@ -294,7 +294,7 @@
 											"path": [
 												"kasir",
 												"keranjang",
-												"4"
+												"{id}"
 											]
 										}
 									},
@@ -312,7 +312,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_pelanggan\": 1\r\n}"
+											"raw": "{\r\n  \"id_pelanggan\": \r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/transaksi",
@@ -353,7 +353,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/transaksi/2",
+											"raw": "localhost:8080/kasir/transaksi/{id}",
 											"host": [
 												"localhost"
 											],
@@ -361,7 +361,7 @@
 											"path": [
 												"kasir",
 												"transaksi",
-												"2"
+												"{id}"
 											]
 										}
 									},
@@ -379,7 +379,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"id_transaksi\": 1,\r\n  \"id_produk\": 5,\r\n  \"jumlah_produk\": 2\r\n}"
+											"raw": "{\r\n  \"id_transaksi\": ,\r\n  \"id_produk\": ,\r\n  \"jumlah_produk\": \r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/kasir/detail-transaksi",
@@ -420,7 +420,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/kasir/detail-transaksi/2",
+											"raw": "localhost:8080/kasir/detail-transaksi/{id}",
 											"host": [
 												"localhost"
 											],
@@ -428,7 +428,7 @@
 											"path": [
 												"kasir",
 												"detail-transaksi",
-												"2"
+												"{id}"
 											]
 										}
 									},
@@ -492,7 +492,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/users/7",
+											"raw": "localhost:8080/admin/users/{id}",
 											"host": [
 												"localhost"
 											],
@@ -500,7 +500,7 @@
 											"path": [
 												"admin",
 												"users",
-												"7"
+												"{id}"
 											]
 										}
 									},
@@ -513,10 +513,10 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"username\": \"admin\",\r\n    \"role\": \"admin\"\r\n}"
+											"raw": "{\r\n    \"username\": \"\",\r\n    \"role\": \"\"\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/admin/users/7",
+											"raw": "localhost:8080/admin/users/{id}",
 											"host": [
 												"localhost"
 											],
@@ -524,7 +524,7 @@
 											"path": [
 												"admin",
 												"users",
-												"7"
+												"{id}"
 											]
 										}
 									},
@@ -536,7 +536,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/users/6",
+											"raw": "localhost:8080/admin/users/{id}",
 											"host": [
 												"localhost"
 											],
@@ -544,7 +544,7 @@
 											"path": [
 												"admin",
 												"users",
-												"6"
+												"{id}"
 											]
 										}
 									},
@@ -562,7 +562,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"nama_pelanggan\": \"nahida\",\r\n    \"nomor_hp\": \"087781339449\"\r\n}"
+											"raw": "{\r\n    \"nama_pelanggan\": \"\",\r\n    \"nomor_hp\": \"\"\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/admin/pelanggan",
@@ -603,7 +603,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/pelanggan/4",
+											"raw": "localhost:8080/admin/pelanggan/{id}",
 											"host": [
 												"localhost"
 											],
@@ -611,7 +611,7 @@
 											"path": [
 												"admin",
 												"pelanggan",
-												"4"
+												"{id}"
 											]
 										}
 									},
@@ -624,10 +624,10 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"nama_pelanggan\": \"nahida\",\r\n    \"nomor_hp\": \"127001\"\r\n}"
+											"raw": "{\r\n    \"nama_pelanggan\": \"\",\r\n    \"nomor_hp\": \"\"\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/admin/pelanggan/4",
+											"raw": "localhost:8080/admin/pelanggan/{id}",
 											"host": [
 												"localhost"
 											],
@@ -635,7 +635,7 @@
 											"path": [
 												"admin",
 												"pelanggan",
-												"4"
+												"{id}"
 											]
 										}
 									},
@@ -647,7 +647,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/pelanggan/4",
+											"raw": "localhost:8080/admin/pelanggan/{id}",
 											"host": [
 												"localhost"
 											],
@@ -655,7 +655,7 @@
 											"path": [
 												"admin",
 												"pelanggan",
-												"4"
+												"{id}"
 											]
 										}
 									},
@@ -673,7 +673,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"nama_kategori_produk\": \"Keyboard\"\r\n}"
+											"raw": "{\r\n    \"nama_kategori_produk\": \"\"\r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/admin/kategori-produk",
@@ -714,7 +714,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/kategori-produk/3",
+											"raw": "localhost:8080/admin/kategori-produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -722,7 +722,7 @@
 											"path": [
 												"admin",
 												"kategori-produk",
-												"3"
+												"{id}"
 											]
 										}
 									},
@@ -738,7 +738,7 @@
 											"raw": "{\r\n    \"nama_kategori_produk\": \"Laptop\"\r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/admin/kategori-produk/3",
+											"raw": "localhost:8080/admin/kategori-produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -746,7 +746,7 @@
 											"path": [
 												"admin",
 												"kategori-produk",
-												"3"
+												"{id}"
 											]
 										}
 									},
@@ -758,7 +758,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/kategori-produk/2",
+											"raw": "localhost:8080/admin/kategori-produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -766,7 +766,7 @@
 											"path": [
 												"admin",
 												"kategori-produk",
-												"2"
+												"{id}"
 											]
 										}
 									},
@@ -784,7 +784,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"nama_produk\": \"DA Meca 6x Plus\",\r\n  \"harga_produk\": 520000,\r\n  \"stok_produk\": 5,\r\n  \"id_kategori_produk\": 1\r\n}"
+											"raw": "{\r\n  \"nama_produk\": \"\",\r\n  \"harga_produk\": ,\r\n  \"stok_produk\": ,\r\n  \"id_kategori_produk\": \r\n}"
 										},
 										"url": {
 											"raw": "localhost:8080/admin/produk",
@@ -825,7 +825,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/produk/3",
+											"raw": "localhost:8080/admin/produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -833,7 +833,7 @@
 											"path": [
 												"admin",
 												"produk",
-												"3"
+												"{id}"
 											]
 										}
 									},
@@ -846,10 +846,10 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"nama_produk\": \"Logitech G102 Light Sync\",\r\n  \"harga_produk\": 250000,\r\n  \"stok_produk\": 5,\r\n  \"id_kategori_produk\": 2\r\n}"
+											"raw": "{\r\n  \"nama_produk\": \"\",\r\n  \"harga_produk\": ,\r\n  \"stok_produk\": ,\r\n  \"id_kategori_produk\": \r\n}"
 										},
 										"url": {
-											"raw": "localhost:8080/admin/produk/3",
+											"raw": "localhost:8080/admin/produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -857,7 +857,7 @@
 											"path": [
 												"admin",
 												"produk",
-												"3"
+												"{id}"
 											]
 										}
 									},
@@ -869,7 +869,7 @@
 										"method": "DELETE",
 										"header": [],
 										"url": {
-											"raw": "localhost:8080/admin/produk/1",
+											"raw": "localhost:8080/admin/produk/{id}",
 											"host": [
 												"localhost"
 											],
@@ -877,7 +877,7 @@
 											"path": [
 												"admin",
 												"produk",
-												"1"
+												"{id}"
 											]
 										}
 									},
@@ -1001,7 +1001,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"kasir\",\r\n    \"password\": \"kasir\",\r\n    \"role\": \"kasir\"\r\n}"
+					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\",\r\n    \"role\": \"admin\"\r\n}"
 				},
 				"url": {
 					"raw": "localhost:8080/register",
