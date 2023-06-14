@@ -16,6 +16,7 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 	if err := Utils.DecodeJSONBody(w, r, &transaksiInput); err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> CreateTransaksi() - 1")
 		return
 	}
 
@@ -24,6 +25,7 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.First(&pelanggan, transaksiInput.IDPelanggan).Error; err != nil {
 		response := map[string]string{"message": "id pelanggan tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> CreateTransaksi() - 2")
 		return
 	}
 
@@ -34,6 +36,7 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Where("id_pelanggan = ?", transaksiInput.IDPelanggan).Find(&keranjang).Error; err != nil {
 		response := map[string]string{"message": "gagal mengambil keranjang"}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> CreateTransaksi() - 3")
 		return
 	}
 
@@ -45,6 +48,7 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 		if err := Database.DB.First(&produk, item.IDProduk).Error; err != nil {
 			response := map[string]string{"message": "produk tidak ditemukan"}
 			Utils.ResponseJSON(w, http.StatusNotFound, response)
+			Utils.Logger(2, "Kasir/TransaksiController.go -> CreateTransaksi() - 4")
 			return
 		}
 
@@ -72,6 +76,7 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Create(&transaksi).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> CreateTransaksi() - 5")
 		return
 	}
 
@@ -80,6 +85,7 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 		if err := Database.DB.Create(&detailTransaksis[i]).Error; err != nil {
 			response := map[string]string{"message": err.Error()}
 			Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+			Utils.Logger(2, "Kasir/TransaksiController.go -> CreateTransaksi() - 6")
 			return
 		}
 	}
@@ -88,12 +94,14 @@ func CreateTransaksi(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Where("id_pelanggan = ?", transaksi.IDPelanggan).Delete(&Models.Keranjang{}).Error; err != nil {
 		response := map[string]string{"message": "gagal menghapus keranjang"}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> CreateTransaksi() - 7")
 		return
 	}
 
 	response := map[string]string{"message": "berhasil menambahkan transaksi"}
 
 	Utils.ResponseJSON(w, http.StatusCreated, response)
+	Utils.Logger(3, "Kasir/TransaksiController.go -> CreateTransaksi()")
 }
 
 
@@ -104,6 +112,7 @@ func GetTransaksiByID(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> GetTransaksiByID() - 1")
 		return
 	}
 
@@ -112,6 +121,7 @@ func GetTransaksiByID(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Preload("Pelanggan").First(&transaksi, transaksiID).Error; err != nil {
 		response := map[string]string{"message": "transaksi tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> GetTransaksiByID() - 2")
 		return
 	}
 
@@ -125,6 +135,7 @@ func GetTransaksiByID(w http.ResponseWriter, r *http.Request) {
 	response := map[string]interface{}{"transaksi": transaksiResponse}
 
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Kasir/TransaksiController.go -> GetTransaksiByID()")
 }
 
 func GetAllTransaksi(w http.ResponseWriter, r *http.Request) {
@@ -133,6 +144,7 @@ func GetAllTransaksi(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Preload("Pelanggan").Find(&transaksis).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/TransaksiController.go -> GetAllTransaksi() - 1")
 		return
 	}
 
@@ -150,4 +162,5 @@ func GetAllTransaksi(w http.ResponseWriter, r *http.Request) {
 
 	response := map[string]interface{}{"transaksis": transaksiResponses}
 	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Kasir/TransaksiController.go -> GetAllTransaksi()")
 }
