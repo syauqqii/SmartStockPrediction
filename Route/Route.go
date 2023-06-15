@@ -91,9 +91,11 @@ func RunRoute() {
 	kasir.HandleFunc("/transaksi/{id}", Kasir.GetTransaksiByID).Methods("GET")	// Read By ID
 
 	// >> CRUD DETAIL TRANSAKSI ROUTE
-	kasir.HandleFunc("/detail-transaksi", Kasir.CreateDetailTransaksi).Methods("POST")		// Create
+	kasir.HandleFunc("/detail-transaksi", Kasir.CreateDetailTransaksi).Methods("POST")		// Create 
 	kasir.HandleFunc("/detail-transaksi", Kasir.ListDetailTransaksi).Methods("GET")			// Read
 	kasir.HandleFunc("/detail-transaksi/{id}", Kasir.GetDetailTransaksiByID).Methods("GET")	// Read By ID
+
+	kasir.HandleFunc("/detail-transaksi-id/{id}", Kasir.GetDetailTransaksiByTransaksiID).Methods("GET")	// Read By ID Transaksi
 
 	// ------------------------[  START APP  ]----------------------------------
 	if Utils.IS_DISPLAY == "1" {

@@ -134,3 +134,53 @@ func CreateDetailTransaksi(w http.ResponseWriter, r *http.Request) {
 	Utils.Logger(3, "Kasir/DetailTransaksiController.go -> CreateDetailTransaksi()")
 }
 
+func GetDetailTransaksiByTransaksiID(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	transaksiID, err := strconv.Atoi(params["id"])
+
+	if err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusBadRequest, response)
+		Utils.Logger(2, "Kasir/DetailTransaksiController.go -> GetDetailTransaksiByTransaksiID() - 1")
+		return
+	}
+
+	var detailTransaksis []Models.DetailTransaksi
+
+	if err := Database.DB.Where("id_transaksi = ?", transaksiID).Find(&detailTransaksis).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/DetailTransaksiController.go -> GetDetailTransaksiByTransaksiID() - 2")
+		return
+	}
+
+	if len(detailTransaksis) == 0 {
+		response := map[string]string{"message": "tidak ada detail transaksi dengan ID transaksi tersebut"}
+		Utils.ResponseJSON(w, http.StatusNotFound, response)
+		Utils.Logger(2, "Kasir/DetailTransaksiController.go -> GetDetailTransaksiByTransaksiID() - 3")
+		return
+	}
+
+	var produkIDs []int
+
+	for _, detailTransaksi := range detailTransaksis {
+		produkIDs = append(produkIDs, detailTransaksi.IDProduk)
+	}
+
+	var produks []Models.Produk
+
+	if err := Database.DB.Where("id_produk IN (?)", produkIDs).Find(&produks).Error; err != nil {
+		response := map[string]string{"message": err.Error()}
+		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
+		Utils.Logger(2, "Kasir/DetailTransaksiController.go -> GetDetailTransaksiByTransaksiID() - 4")
+		return
+	}
+
+	response := map[string]interface{}{
+		"transaksi_id": transaksiID,
+		"produks":      produks,
+	}
+
+	Utils.ResponseJSON(w, http.StatusOK, response)
+	Utils.Logger(3, "Kasir/DetailTransaksiController.go -> GetDetailTransaksiByTransaksiID()")
+}
