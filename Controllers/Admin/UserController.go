@@ -142,7 +142,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
-		Utils.Logger(2, "Admin/UserController.go -> GetUserByID() - 3")
+		Utils.Logger(2, "Admin/UserController.go -> UpdateUser() - 3")
 		return
 	}
 
@@ -150,7 +150,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.First(&user, userID).Error; err != nil {
 		response := map[string]string{"message": "user tidak ditemukan"}
 		Utils.ResponseJSON(w, http.StatusNotFound, response)
-		Utils.Logger(2, "Admin/UserController.go -> GetUserByID() - 4")
+		Utils.Logger(2, "Admin/UserController.go -> UpdateUser() - 4")
 		return
 	}
 
@@ -158,14 +158,14 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if err := Utils.DecodeJSONBody(w, r, &userInput); err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
-		Utils.Logger(2, "Admin/UserController.go -> GetUserByID() - 5")
+		Utils.Logger(2, "Admin/UserController.go -> UpdateUser() - 5")
 		return
 	}
 
 	if userInput.Username == "" || userInput.Password == "" || userInput.Role == "" {
 		response := map[string]string{"message": "request body tidak boleh kosong"}
 		Utils.ResponseJSON(w, http.StatusBadRequest, response)
-		Utils.Logger(2, "Admin/UserController.go -> GetUserByID() - 6")
+		Utils.Logger(2, "Admin/UserController.go -> UpdateUser() - 6")
 		return
 	}
 
@@ -174,7 +174,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 		if err := Database.DB.Where("username = ?", userInput.Username).First(&existingUser).Error; err == nil {
 			response := map[string]string{"message": "username sudah ada"}
 			Utils.ResponseJSON(w, http.StatusConflict, response)
-			Utils.Logger(2, "Admin/UserController.go -> GetUserByID() - 7")
+			Utils.Logger(2, "Admin/UserController.go -> UpdateUser() - 7")
 			return
 		}
 	}
@@ -182,7 +182,7 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if userInput.Role != "admin" && userInput.Role != "kasir" {
 		response := map[string]string{"message": "role tidak ada"}
 		Utils.ResponseJSON(w, http.StatusConflict, response)
-		Utils.Logger(2, "Admin/UserController.go -> GetUserByID() - 8")
+		Utils.Logger(2, "Admin/UserController.go -> UpdateUser() - 8")
 		return
 	}
 
@@ -192,13 +192,13 @@ func UpdateUser(w http.ResponseWriter, r *http.Request) {
 	if err := Database.DB.Save(&user).Error; err != nil {
 		response := map[string]string{"message": err.Error()}
 		Utils.ResponseJSON(w, http.StatusInternalServerError, response)
-		Utils.Logger(2, "Admin/UserController.go -> GetUserByID() - 9")
+		Utils.Logger(2, "Admin/UserController.go -> UpdateUser() - 9")
 		return
 	}
 
 	response := map[string]string{"message": "berhasil update user"}
 	Utils.ResponseJSON(w, http.StatusOK, response)
-	Utils.Logger(3, "Admin/UserController.go -> GetUserByID()")
+	Utils.Logger(3, "Admin/UserController.go -> UpdateUser()")
 }
 
 func DeleteUser(w http.ResponseWriter, r *http.Request) {
