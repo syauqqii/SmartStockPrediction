@@ -176,9 +176,27 @@ func GetDetailTransaksiByTransaksiID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	type ResponseProduk struct {
+		IDProduk    int     `json:"id_produk"`
+		NamaProduk  string  `json:"nama_produk"`
+		HargaProduk float64 `json:"harga_produk"`
+		StokProduk  int     `json:"stok_produk"`
+	}
+
+	responseProduks := make([]ResponseProduk, 0)
+	for _, produk := range produks {
+		responseProduk := ResponseProduk{
+			IDProduk:    produk.ID,
+			NamaProduk:  produk.NamaProduk,
+			HargaProduk: produk.HargaProduk,
+			StokProduk:  produk.StokProduk,
+		}
+		responseProduks = append(responseProduks, responseProduk)
+	}
+
 	response := map[string]interface{}{
 		"transaksi_id": transaksiID,
-		"produks":      produks,
+		"produks":      responseProduks,
 	}
 
 	Utils.ResponseJSON(w, http.StatusOK, response)
