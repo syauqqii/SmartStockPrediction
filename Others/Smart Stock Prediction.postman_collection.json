@@ -373,29 +373,6 @@
 							"name": "Detail Transaksi",
 							"item": [
 								{
-									"name": "Create Detail Transaksi",
-									"request": {
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"id_transaksi\": ,\r\n  \"id_produk\": ,\r\n  \"jumlah_produk\": \r\n}"
-										},
-										"url": {
-											"raw": "localhost:8080/kasir/detail-transaksi",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"kasir",
-												"detail-transaksi"
-											]
-										}
-									},
-									"response": []
-								},
-								{
 									"name": "Get Detail Transaksi",
 									"request": {
 										"method": "GET",
@@ -429,6 +406,26 @@
 												"kasir",
 												"detail-transaksi",
 												"{id}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Detail Transaksi By ID Transaksi",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:8080/kasir/detail-transaksi-id/6",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"kasir",
+												"detail-transaksi-id",
+												"6"
 											]
 										}
 									},
@@ -1001,7 +998,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\",\r\n    \"role\": \"admin\"\r\n}"
+					"raw": "{\r\n    \"username\": \"binus\",\r\n    \"password\": \"kasir\",\r\n    \"role\": \"kasir\"\r\n}"
 				},
 				"url": {
 					"raw": "localhost:8080/register",
