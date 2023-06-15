@@ -23,12 +23,12 @@ func Display() {
 	fmt.Printf("\n\n    ===================================================================================================")
 
 	fmt.Printf("\n\n   > Endpoint Kasir [Prefix: Kasir] :")
-	fmt.Printf("\n     - /pelanggan      -> GET, POST         |  - /kategori-produk/      -> GET, POST       ")
-	fmt.Printf("\n     - /pelanggan/{id} -> GET, PUT, DELETE  |  - /kategori-produk/{id}  -> GET, PUT, DELETE")
+	fmt.Printf("\n     - /pelanggan      -> GET, POST    |  - /kategori-produk/      -> GET")
+	fmt.Printf("\n     - /pelanggan/{id} -> GET, PUT     |  - /kategori-produk/{id}  -> GET")
 
-	fmt.Printf("\n\n     - /produk         -> GET, POST         |  - /keranjang/            -> GET, POST     ")
-	fmt.Printf("\n     - /produk/{id}    -> GET, PUT, DELETE  |  - /keranjang/{id}        -> GET, PUT, DELETE")
+	fmt.Printf("\n\n     - /produk         -> GET          |  - /keranjang/            -> GET, POST     ")
+	fmt.Printf("\n     - /produk/{id}    -> GET          |  - /keranjang/{id}        -> GET, PUT, DELETE")
 
-	fmt.Printf("\n\n     - /transaksi      -> GET, POST         |  - /detail-transaksi      -> GET, POST")
-	fmt.Printf("\n     - /transaksi/{id} -> GET, PUT, DELETE  |  - /detail-transaksi/{id} -> GET, PUT, DELETE")
+	fmt.Printf("\n\n     - /transaksi      -> GET, POST    |  - /detail-transaksi      -> GET, POST")
+	fmt.Printf("\n     - /transaksi/{id} -> GET          |  - /detail-transaksi/{id} -> GET")
 }
