@@ -1,13 +1,13 @@
 package Models
 
 type DetailTransaksi struct {
-	ID              int     `gorm:"column:id_detail_transaksi;primaryKey;autoIncrement" json:"id_detail_transaksi"`
-	IDTransaksi     int     `gorm:"column:id_transaksi"                                 json:"id_transaksi"`
-	IDProduk        int     `gorm:"column:id_produk"                                    json:"id_produk"`
-	JumlahProduk    int     `gorm:"column:jumlah_produk"                                json:"jumlah_produk"`
-	HargaProduk     float64 `gorm:"column:harga_produk"                                 json:"harga_produk"`
-	Transaksi    Transaksi  `gorm:"foreignKey:IDTransaksi"                              json:"transaksi"`
-	Produk       Produk     `gorm:"foreignKey:IDProduk"                                 json:"produk"`
+	ID              int     	`gorm:"column:id_detail_transaksi;primaryKey;autoIncrement" json:"id_detail_transaksi"`
+	IDTransaksi     int     	`gorm:"column:id_transaksi"                                 json:"id_transaksi"`
+	IDProduk        int     	`gorm:"column:id_produk"                                    json:"id_produk"`
+	JumlahProduk    int     	`gorm:"column:jumlah_produk"                                json:"jumlah_produk"`
+	HargaProduk     float64 	`gorm:"column:harga_produk"                                 json:"harga_produk"`
+	Transaksi    	Transaksi  	`gorm:"foreignKey:IDTransaksi"                              json:"transaksi"`
+	Produk       	Produk     	`gorm:"foreignKey:IDProduk"                                 json:"produk"`
 }
 
 type DetailTransaksiInput struct {
