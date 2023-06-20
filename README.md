@@ -12,7 +12,7 @@ Sistem ini juga dilengkapi dengan fitur prediksi stok. Dengan memanfaatkan data 
 Secara keseluruhan, Smart Stock Prediction memberikan solusi yang efektif dalam mengelola stok barang, memprediksi kebutuhan stok di masa depan, serta memberikan akses yang sesuai untuk admin, kasir, dan pelanggan. Dengan menggunakan Golang sebagai bahasa pemrograman utama, sistem ini memberikan performa yang baik, kehandalan, dan kemudahan dalam pengembangan dan pengelolaan.
 
 ## Struktur Folder
-<cooming soon>
+--cooming soon--
 
 ## Instalasi
 ```
